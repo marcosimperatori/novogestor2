@@ -87,11 +87,11 @@ $(document).ready(function () {
           if (response.info) {
             $("#response").html(
               '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
-                response.info +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                "</button>" +
-                "</div>"
+              response.info +
+              '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+              '<span aria-hidden="true">&times;</span>' +
+              "</button>" +
+              "</div>"
             );
           } else {
             //tudo certo na atualização, redirecionar o usuário
@@ -102,19 +102,19 @@ $(document).ready(function () {
 
           $("#response").html(
             '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-              response.erro +
-              '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-              '<span aria-hidden="true">&times;</span>' +
-              "</button>" +
-              "</div>"
+            response.erro +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+            '<span aria-hidden="true">&times;</span>' +
+            "</button>" +
+            "</div>"
           );
 
           if (response.erros_model) {
             $.each(response.erros_model, function (key, value) {
               $("#response").append(
                 '<ul class="list-unstyled"><li class="text-danger alert-danger">' +
-                  value +
-                  "</li></ul>"
+                value +
+                "</li></ul>"
               );
             });
           }
@@ -129,5 +129,41 @@ $(document).ready(function () {
         $("#form_cad_customer").LoadingOverlay("hide");
       },
     });
+  });
+
+  $('#list-users').change(function () {
+    if ($(this).val() === '') {
+      $('#resumodp').addClass('d-none');
+    } else {
+      var idUser = $(this).val();
+
+      $.ajax({
+        url: "/administracao/empresasdousuario",
+        data: { id: idUser },
+        dataType: "json",
+        beforeSend: function () {
+          $(".busca-user").LoadingOverlay("show", {
+            background: "rgba(165, 190, 100, 0.5)",
+          });
+        },
+        success: function (response) {
+          $("#totalempresa").text(response.totalEmpresas);
+          $('#resumodp').removeClass('d-none');
+          /*  var usuario = response.usuario;
+  
+            if (usuario != '') {
+              $("#lastlogin").text(usuario.ultimo_login);
+              $("#status").text(usuario.ativo);
+            } else {
+              $('#resumodp').addClass('d-none');
+            }*/
+        },
+        error: function () {
+        },
+        complete: function () {
+          $(".busca-user").LoadingOverlay("hide");
+        },
+      });
+    }
   });
 });

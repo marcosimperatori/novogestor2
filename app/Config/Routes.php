@@ -58,6 +58,8 @@ $routes->post('administracao/clientes/cadastrar', 'Clientes::cadastrar');
 $routes->post('administracao/clientes/atualizar', 'Clientes::atualizar');
 
 $routes->get('administracao/config-responsavel', 'ConfigClientes::index');
+$routes->get('administracao/empresasdousuario', 'ConfigClientes::listaEmpresasUsuarioById');
+$routes->get('administracao/empresasresumousuario', 'ConfigClientes::empresasSemResponsavel');
 
 /*
 /*

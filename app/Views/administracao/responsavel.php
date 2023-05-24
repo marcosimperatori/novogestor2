@@ -11,78 +11,82 @@
   </nav>
 </div>
 
-
-
-
-<div class="jumbotron"></div>
-
 <div class="jumbotron">
-
   <div class="row">
-    <div class="col-6 my-2">
-      <div class="accordion" id="accordionExample">
-        <div class="card">
-          <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-              <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                Responsável x 40 empresas
-              </button>
-            </h2>
-          </div>
+    <div class="col-lg-4 busca-user">
+      <label class="form-control-label">Selecione um funcionário</label>
+      <select id="list-users" name="depto" class="form-control">
+        <option value=''>Selecione...</option>
+        <?php foreach ($usuarios as $usuario) : ?>
+          <option value="<?php echo $usuario->id; ?>"><?php echo $usuario->nome; ?></option>
+        <?php endforeach; ?>
+      </select>
 
-          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-              <p>mostrar a lista de empresas aqui</p>
-              Some placeholder content for the first accordion panel. This panel is shown by default, thanks to the <code>.show</code> class.
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <div class="col-6 my-2">
-      <div class="accordion" id="accordionExample1">
-        <div class="card">
-          <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-              <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne">
-                Responsável y 32 empresas
-              </button>
-            </h2>
-          </div>
-
-          <div id="collapseOne1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample1">
+    <div class="col-lg-8">
+      <div class="container">
+        <div class=" offset-md-3 align-self-center">
+          <div id="resumodp" class="card d-none" style="width: 18rem;">
             <div class="card-body">
-              <p>mostrar a lista de empresas aqui</p>
-              Some placeholder content for the first accordion panel. This panel is shown by default, thanks to the <code>.show</code> class.
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-6 my-2">
-      <div class="accordion" id="accordionExample1">
-        <div class="card">
-          <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-              <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne">
-                Responsável y 32 empresas
-              </button>
-            </h2>
-          </div>
-
-          <div id="collapseOne2" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample1">
-            <div class="card-body">
-              <p>mostrar a lista de empresas aqui</p>
-              Some placeholder content for the first accordion panel. This panel is shown by default, thanks to the <code>.show</code> class.
+              <p class="card-text">Total de empresas: <strong id="totalempresa" class="text-danger"></strong></p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </div>
+
+<div class="jumbotron">
+  <p>Empresas vinculadas a outros usuários</p>
+  <div class="row">
+    <div class="table-responsive">
+      <table id="tableclientes1" class="table table-striped table-sm" style="width: 100%;">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Apelido</th>
+            <th>Apelido</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="jumbotron">
+
+  <div class="row-12">
+    <div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#emp-sem-resp" aria-expanded="true" aria-controls="emp-sem-resp">
+              Empresas responsável atribuido
+            </button>
+          </h2>
+        </div>
+
+        <div id="emp-sem-resp" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="tableclientes2" class="table table-striped table-sm" style="width: 100%;">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Apelido</th>
+                    <th>Apelido</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <?php $this->endSection(); ?>
