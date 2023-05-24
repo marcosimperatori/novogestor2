@@ -1,0 +1,38 @@
+:root {
+  --hrcolor1: #7bac3b;
+  --hrcolor2: #d1cfcf;
+  --cardcolor1: #9DB2BF;
+}
+
+.input-field,
+.select-field,
+.textarea-field {
+  background-color: #dee2e6 !important;
+}
+
+#inputimagem::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+#inputimagem::before {
+  content: 'Selecionar arquivo';
+  display: inline-block;
+  background: #007bff;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+hr {
+  border-color: var(--hrcolor2);
+  /*border: 1px solid;*/
+}
+
+.title {
+  text-transform: capitalize;
+}
+
+.colorcard {
+  background-color: var(--cardcolor1);
+}
