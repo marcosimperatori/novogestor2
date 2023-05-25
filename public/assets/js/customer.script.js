@@ -160,16 +160,14 @@ $(document).ready(function () {
     }
   });
 
-  function carregarDados() {
+  function empresasSemUsuario() {
     var id = $('#list-users').val();
-
     $('#emp-sem-user').DataTable().destroy();
-    $('#emp-outro-user').DataTable().destroy();
-    $('#emp-user-select').DataTable().destroy();
 
     $('#emp-sem-user').DataTable({
       oLanguage: DATATABLE_PTBR,
       ajax: {
+        data: { id: id },
         url: "/administracao/divisaoempresas",
         beforeSend: function () {
           $(".busca-sem-mov").LoadingOverlay("show", {
@@ -187,11 +185,14 @@ $(document).ready(function () {
         {
           data: "apelido",
         },
+        /* {
+           data: "acao",
+           render: function (data) {
+             return data;
+           }
+         },*/
         {
-          data: "acao",
-          render: function (data) {
-            return data;
-          }
+          data: "imagem",
         }
       ],
       deferRender: true,
@@ -203,13 +204,24 @@ $(document).ready(function () {
           width: '100px', targets: 0
         },
         {
-          width: '200px', targets: [2]
+          width: '300px', targets: [2]
         },
         {
           className: 'text-center', targets: [2]
-        }
+        },
+        /*  {
+            targets: [0],
+            render: function (data, type, row) {
+              return '<div class="vertical-align">' + data + '</div>';
+            }
+          }*/
       ]
     });
+  }
+
+  function outrosUsuarios() {
+    var id = $('#list-users').val();
+    $('#emp-outro-user').DataTable().destroy();
 
     $('#emp-outro-user').DataTable({
       oLanguage: DATATABLE_PTBR,
@@ -231,9 +243,6 @@ $(document).ready(function () {
         },
         {
           data: "apelido",
-        },
-        {
-          data: "nome",
         },
         {
           data: "imagem",
@@ -258,13 +267,18 @@ $(document).ready(function () {
           width: '80px', targets: [2]
         },
         {
-          width: '60px', targets: [3, 4]
+          width: '60px', targets: [3]
         },
         {
-          className: 'text-center', targets: [2, 3, 4]
+          className: 'text-center', targets: [2, 3]
         }
       ]
     });
+  }
+
+  function empresasDoUsuario() {
+    var id = $('#list-users').val();
+    $('#emp-user-select').DataTable().destroy();
 
     $('#emp-user-select').DataTable({
       oLanguage: DATATABLE_PTBR,
@@ -288,6 +302,9 @@ $(document).ready(function () {
           data: "apelido",
         },
         {
+          data: "imagem",
+        },
+        {
           data: "acao",
           render: function (data) {
             return data;
@@ -308,9 +325,64 @@ $(document).ready(function () {
         },
         {
           className: 'text-center', targets: [2]
+        },
+        {
+          width: '60px', targets: [3]
+        },
+        {
+          className: 'text-center', targets: [2, 3]
         }
       ]
     });
+  }
+
+  function carregarDados() {
+    empresasSemUsuario();
+    outrosUsuarios();
+    empresasDoUsuario();
+  }
+
+  function createToast() {
+    // Criar elemento do toast
+    var toastEl = document.createElement('div');
+    toastEl.classList.add('toast');
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+    toastEl.setAttribute('name', 'marcos');
+
+    // Criar conteúdo do toast
+    toastEl.innerHTML = `   
+      <div class="toast-header">
+        <strong class="mr-auto"><i class="fas fa-check-circle text-success"></i>&nbsp;Registro atualizado</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Sua ação foi concluída com sucesso!
+      </div>
+  `;
+
+    // Adicionar toast ao container
+    var toastContainer = document.getElementById('toastContainer');
+    toastContainer.appendChild(toastEl);
+
+    // Criar objeto Toast
+    var toast = new bootstrap.Toast(toastEl, {
+      //autohide: true, // Esconder o toast automaticamente
+      delay: 5000
+    });
+
+    console.log('aqui');
+    // Adicionar evento de ocultação do toast
+    toastEl.addEventListener('hidden.bs.toast', function () {
+      // Remover o elemento do toast do seu container pai
+      toastEl.parentNode.removeChild(toastEl);
+    });
+
+    // Exibir o toast
+    toast.show();
   }
 
   $('#emp-outro-user').on('click', '#outros-usuarios', function () {
@@ -325,10 +397,38 @@ $(document).ready(function () {
       url: "/responsavel/excluir",
       data: { id: registro },
       success: function (response) {
-        $('#liveToast').toast('show');
+        $("[name='csrf_test_name']").val(response.token);
+        createToast();
+        outrosUsuarios();
+        empresasSemUsuario();
       },
       error: function () {
       },
     });
   });
+
+  $('#emp-user-select').on('click', '#usuario-ativo', function () {
+    var registro = $(this).data('id');
+    csrfToken = $('input[name="csrf_test_name"]').val();
+
+    $.ajax({
+      type: "POST",
+      headers: {
+        "X-CSRF-Token": csrfToken,
+      },
+      url: "/responsavel/excluir",
+      data: { id: registro },
+      success: function (response) {
+        $("[name='csrf_test_name']").val(response.token);
+        createToast();
+        empresasDoUsuario();
+        empresasSemUsuario();
+      },
+      error: function () {
+      },
+    });
+  });
+
+
+
 });

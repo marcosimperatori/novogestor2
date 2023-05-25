@@ -68,6 +68,9 @@ class ConfigClientes extends BaseController
             return redirect()->back();
         }
 
+        $getUser = $this->request->getGet();
+        $id = $getUser['id'];
+
         $clientes = new \App\Models\ClienteModel();
 
         $lista = $clientes
@@ -76,19 +79,68 @@ class ConfigClientes extends BaseController
             ->where('clientesresponsavel.idcliente IS NULL')
             ->findAll();
 
+        //a partir do usuário eu consigo obter seu departamento
+        $usuarioAtivo = new \App\Models\UsuarioModel();
+        $usuario = $usuarioAtivo->find($id);
+
+        //buscar apenas os usuários que são do mesmo departamento que o usuário que chegou neste método
+        $deparmentoModel = new \App\Models\DepartamentoModel();
+
+
+        $listaDeptos1 = $deparmentoModel
+            ->select('usuarios.id, usuarios.nome, usuarios.imagem')
+            ->join('clientesresponsavel', 'clientesresponsavel.iddepto = departamentos.id')
+            ->join('usuarios', 'usuarios.id = clientesresponsavel.idusuario')
+            ->where('clientesresponsavel.iddepto', $usuario->depto)
+            ->orderBy('nome', 'asc')->findAll();
+
+
+        $listaDeptos = $usuarioAtivo->orderBy('nome', 'asc')->findAll();
+
         $data = [];
 
         foreach ($lista as $retorno) {
+            $imagens = '';
+
+            foreach ($listaDeptos as $user) {
+                if ($user->imagem != null) {
+                    $imagem = [
+                        'src'   => site_url("usuarios/imagem/$user->imagem"),
+                        'class' => 'rounded-circle img-fluid',
+                        'alt'   => esc($user->nome),
+                        'title' => "Vincule a " . esc($user->nome),
+                        'width' => '45',
+                        'data-codigo' => $user->id,
+                    ];
+                } else {
+                    $imagem = [
+                        'src'   => site_url("assets/img/user_sem_imagem.png"),
+                        'class' => 'rounded-circle img-fluid',
+                        'alt'   => "Usuário sem imagem",
+                        'title' => "Vincule a " . esc($user->nome),
+                        'width' => '45'
+                    ];
+                }
+
+                $imagens .= img($imagem);
+            }
+
             $data[] = [
                 'codigo'  => $retorno->codigo,
                 'apelido' => $retorno->apelido,
-                'acao'    => '<div class="text-success" style="cursor:pointer;" title="Desvincular cliente do usuário"><i data-id=' . $retorno->id . ' class="fas fa-thumbs-up"></i>&nbsp;Vincular ao usuário</div>'
+                // 'acao'    => '<div class="text-success" data-id=' . $retorno->id . ' style="cursor:pointer;" title="Vincular cliente ao usuário ativo"><i class="fas fa-thumbs-up"></i>&nbsp;Vincular ao usuário</div>',
+                'imagem' => $imagens,
             ];
         }
 
         $retorno = [
             'data' => $data,
         ];
+
+        $resultado = json_encode($data);
+        // echo "<pre>";
+        // print_r($resultado);
+        // exit;
 
         return $this->response->setJSON($retorno);
     }
@@ -137,7 +189,7 @@ class ConfigClientes extends BaseController
             $data[] = [
                 'codigo'  => $retorno->codigo,
                 'apelido' => $retorno->apelido,
-                'nome'    => $retorno->nome,
+                //'nome'    => $retorno->nome,
                 'imagem'  => $retorno->imagem = img($imagem),
                 'acao'    => '<div id="outros-usuarios" class="text-danger" data-id=' . $retorno->controle . ' style="cursor:pointer;" title="Desvincular cliente do usuário"><i class="fas fa-backspace" ></i>&nbsp;Desvincular</div>'
             ];
@@ -163,8 +215,9 @@ class ConfigClientes extends BaseController
         $clientes = new \App\Models\ClienteModel();
 
         $retornos = $clientes
-            ->select('clientes.codigo, clientes.apelido, clientesresponsavel.id AS resp')
+            ->select('usuarios.nome,usuarios.imagem,clientes.codigo, clientes.apelido, clientesresponsavel.id AS resp')
             ->join('clientesresponsavel', 'clientesresponsavel.idcliente = clientes.id')
+            ->join('usuarios', 'usuarios.id = clientesresponsavel.idusuario')
             ->where('clientesresponsavel.idusuario =', $id)
             ->findAll();
 
@@ -172,10 +225,29 @@ class ConfigClientes extends BaseController
         $data = [];
 
         foreach ($retornos as $item) {
+            if ($item->imagem != null) {
+                $imagem = [
+                    'src'   => site_url("usuarios/imagem/$item->imagem"),
+                    'class' => 'rounded-circle img-fluid',
+                    'alt'   => esc($item->nome),
+                    'title' => esc($item->nome),
+                    'width' => '45'
+                ];
+            } else {
+                $imagem = [
+                    'src'   => site_url("assets/img/user_sem_imagem.png"),
+                    'class' => 'rounded-circle img-fluid',
+                    'alt'   => "Usuário sem imagem",
+                    'title' => esc($item->nome),
+                    'width' => '45'
+                ];
+            }
+
             $data[] = [
                 'codigo'  => $item->codigo,
                 'apelido' => $item->apelido,
-                'acao'    => '<div class="text-danger" data-id=' . $item->resp . ' style="cursor:pointer;" title="Desvincular cliente do usuário"><i class="fas fa-backspace"></i>&nbsp;Desvincular</div>'
+                'imagem'  => img($imagem),
+                'acao'    => '<div id="usuario-ativo" class="text-danger" data-id=' . $item->resp . ' style="cursor:pointer;" title="Desvincular cliente do usuário"><i class="fas fa-backspace"></i>&nbsp;Desvincular</div>'
             ];
         }
 
@@ -193,6 +265,8 @@ class ConfigClientes extends BaseController
         if (!$this->request->isAJAX()) {
             return redirect()->back();
         }
+
+        $retorno['token'] = csrf_hash();
 
         $id = $this->request->getPost('id');
         $respCliente = $this->buscaUsuarioOu404($id);
