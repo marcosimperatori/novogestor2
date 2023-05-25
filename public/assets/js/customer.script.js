@@ -429,6 +429,29 @@ $(document).ready(function () {
     });
   });
 
+  $('#emp-sem-user').on('click', '#img-usuario', function () {
+    var usuario = $(this).data('usuario');
+    var empresa = $(this).data('empresa');
+    csrfToken = $('input[name="csrf_test_name"]').val();
+
+    $.ajax({
+      type: "POST",
+      headers: {
+        "X-CSRF-Token": csrfToken,
+      },
+      url: "/responsavel/vincular",
+      data: { idUsuario: usuario, idCliente: empresa },
+      success: function (response) {
+        $("[name='csrf_test_name']").val(response.token);
+        createToast();
+        empresasSemUsuario();
+        empresasDoUsuario();
+        outrosUsuarios();
+      },
+      error: function () {
+      },
+    });
+  });
 
 
 });

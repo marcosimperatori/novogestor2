@@ -6,11 +6,11 @@ use App\Controllers\BaseController;
 
 class ConfigClientes extends BaseController
 {
-    private $clienteReponsavelModel;
+    private $usuarioModel;
 
     public function __construct()
     {
-        $this->clienteReponsavelModel = new \App\Models\ClienteResponsavelModel();
+        $this->usuarioModel = new \App\Models\UsuarioModel();
     }
 
     public function index()
@@ -110,7 +110,9 @@ class ConfigClientes extends BaseController
                         'alt'   => esc($user->nome),
                         'title' => "Vincule a " . esc($user->nome),
                         'width' => '45',
-                        'data-codigo' => $user->id,
+                        'data-usuario' => $user->id,
+                        'data-empresa' => $retorno->id,
+                        'id' => "img-usuario",
                     ];
                 } else {
                     $imagem = [
@@ -118,7 +120,10 @@ class ConfigClientes extends BaseController
                         'class' => 'rounded-circle img-fluid',
                         'alt'   => "Usuário sem imagem",
                         'title' => "Vincule a " . esc($user->nome),
-                        'width' => '45'
+                        'width' => '45',
+                        'data-usuario' => $user->id,
+                        'data-empresa' => $retorno->id,
+                        'id' => "img-usuario",
                     ];
                 }
 
@@ -268,11 +273,42 @@ class ConfigClientes extends BaseController
 
         $retorno['token'] = csrf_hash();
 
+        $cliente = new \App\Models\ClienteResponsavelModel();
+
         $id = $this->request->getPost('id');
         $respCliente = $this->buscaUsuarioOu404($id);
 
-        $this->clienteReponsavelModel->delete($respCliente->id);
+        $cliente->delete($respCliente->id);
         $retorno['resultado'] = 'Cliente desvinculado do usuário, com sucesso!';
+
+        return $this->response->setJSON($retorno);
+    }
+
+    public function vincularCliente()
+    {
+        if (!$this->request->isAJAX()) {
+            return redirect()->back();
+        }
+
+        $retorno['token'] = csrf_hash();
+
+        $postUser = $this->request->getPost();
+
+        //preencho uma instancia da classe de controle com os dados que vieram do post
+        $controle = new \App\Entities\ClienteResponsavel();
+
+        $usuario = $this->buscaUsuarioOu404($postUser['idUsuario']);
+
+        $controle->idcliente = $postUser['idCliente'];
+        $controle->idusuario = $usuario->id;
+        $controle->iddepto = $usuario->depto;
+
+        $responsavelModel = new \App\Models\ClienteResponsavelModel();
+
+        if ($responsavelModel->protect(false)->save($controle)) {
+            $retorno['resultado'] = 'Cliente foi vinculado ao usuário com sucesso';
+            return $this->response->setJSON($retorno);
+        }
 
         return $this->response->setJSON($retorno);
     }
@@ -286,7 +322,7 @@ class ConfigClientes extends BaseController
     private function buscaUsuarioOu404(int $id = null)
     {
         //vai considerar inclusive os registros excluídos (softdelete)
-        if (!$id || !$usuario = $this->clienteReponsavelModel->withDeleted(true)->find($id)) {
+        if (!$id || !$usuario = $this->usuarioModel->find($id)) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound("Registro não encontrado com o ID: $id");
         }
 

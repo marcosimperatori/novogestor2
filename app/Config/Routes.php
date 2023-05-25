@@ -65,6 +65,7 @@ $routes->get('administracao/empresasoutroresponsavel', 'ConfigClientes::empresas
 $routes->get('administracao/empresasresponsavel', 'ConfigClientes::empresasResponsavel');
 
 $routes->post('responsavel/excluir', 'ConfigClientes::excluir');
+$routes->post('responsavel/vincular', 'ConfigClientes::vincularCliente');
 /*
 /*
 
