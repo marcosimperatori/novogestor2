@@ -60,7 +60,11 @@ $routes->post('administracao/clientes/atualizar', 'Clientes::atualizar');
 $routes->get('administracao/config-responsavel', 'ConfigClientes::index');
 $routes->get('administracao/empresasdousuario', 'ConfigClientes::listaEmpresasUsuarioById');
 $routes->get('administracao/empresasresumousuario', 'ConfigClientes::empresasSemResponsavel');
+$routes->get('administracao/divisaoempresas', 'ConfigClientes::empresasSemResponsavel');
+$routes->get('administracao/empresasoutroresponsavel', 'ConfigClientes::empresasOutroResponsavel');
+$routes->get('administracao/empresasresponsavel', 'ConfigClientes::empresasResponsavel');
 
+$routes->post('responsavel/excluir', 'ConfigClientes::excluir');
 /*
 /*
 

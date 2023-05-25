@@ -30,6 +30,7 @@ $(document).ready(function () {
     },
   };
 
+
   $("#tableclientes").DataTable({
     oLanguage: DATATABLE_PTBR,
     ajax: "/clientes/recuperaclientes",
@@ -147,23 +148,187 @@ $(document).ready(function () {
           });
         },
         success: function (response) {
-          $("#totalempresa").text(response.totalEmpresas);
-          $('#resumodp').removeClass('d-none');
-          /*  var usuario = response.usuario;
-  
-            if (usuario != '') {
-              $("#lastlogin").text(usuario.ultimo_login);
-              $("#status").text(usuario.ativo);
-            } else {
-              $('#resumodp').addClass('d-none');
-            }*/
+          $("[name='csrf_test_name']").val(response.token);
         },
         error: function () {
         },
         complete: function () {
           $(".busca-user").LoadingOverlay("hide");
+          carregarDados();
         },
       });
     }
+  });
+
+  function carregarDados() {
+    var id = $('#list-users').val();
+
+    $('#emp-sem-user').DataTable().destroy();
+    $('#emp-outro-user').DataTable().destroy();
+    $('#emp-user-select').DataTable().destroy();
+
+    $('#emp-sem-user').DataTable({
+      oLanguage: DATATABLE_PTBR,
+      ajax: {
+        url: "/administracao/divisaoempresas",
+        beforeSend: function () {
+          $(".busca-sem-mov").LoadingOverlay("show", {
+            background: "rgba(165, 190, 100, 0.5)",
+          });
+        },
+        complete: function () {
+          $(".busca-sem-mov").LoadingOverlay("hide");
+        },
+      },
+      columns: [
+        {
+          data: "codigo",
+        },
+        {
+          data: "apelido",
+        },
+        {
+          data: "acao",
+          render: function (data) {
+            return data;
+          }
+        }
+      ],
+      deferRender: true,
+      responsive: true,
+      pagingType: $(window).width() < 768 ? "simple" : "simple_numbers",
+      pageLength: 10,
+      columnDefs: [
+        {
+          width: '100px', targets: 0
+        },
+        {
+          width: '200px', targets: [2]
+        },
+        {
+          className: 'text-center', targets: [2]
+        }
+      ]
+    });
+
+    $('#emp-outro-user').DataTable({
+      oLanguage: DATATABLE_PTBR,
+      ajax: {
+        data: { id: id },
+        url: "/administracao/empresasoutroresponsavel",
+        beforeSend: function () {
+          $("#busca-sem-mov").LoadingOverlay("show", {
+            background: "rgba(165, 190, 100, 0.5)",
+          });
+        },
+        complete: function () {
+          $("#busca-sem-mov").LoadingOverlay("hide");
+        },
+      },
+      columns: [
+        {
+          data: "codigo",
+        },
+        {
+          data: "apelido",
+        },
+        {
+          data: "nome",
+        },
+        {
+          data: "imagem",
+        },
+        {
+          data: "acao",
+          render: function (data) {
+            return data;
+          }
+        }
+      ],
+      deferRender: true,
+      processing: true,
+      responsive: true,
+      pagingType: $(window).width() < 768 ? "simple" : "simple_numbers",
+      pageLength: 10,
+      columnDefs: [
+        {
+          width: '100px', targets: 0
+        },
+        {
+          width: '80px', targets: [2]
+        },
+        {
+          width: '60px', targets: [3, 4]
+        },
+        {
+          className: 'text-center', targets: [2, 3, 4]
+        }
+      ]
+    });
+
+    $('#emp-user-select').DataTable({
+      oLanguage: DATATABLE_PTBR,
+      ajax: {
+        data: { id: id },
+        url: "/administracao/empresasresponsavel",
+        beforeSend: function () {
+          $("#busca-sem-mov").LoadingOverlay("show", {
+            background: "rgba(165, 190, 100, 0.5)",
+          });
+        },
+        complete: function () {
+          $("#busca-sem-mov").LoadingOverlay("hide");
+        },
+      },
+      columns: [
+        {
+          data: "codigo",
+        },
+        {
+          data: "apelido",
+        },
+        {
+          data: "acao",
+          render: function (data) {
+            return data;
+          }
+        }
+      ],
+      deferRender: true,
+      processing: true,
+      responsive: true,
+      pagingType: $(window).width() < 768 ? "simple" : "simple_numbers",
+      pageLength: 10,
+      columnDefs: [
+        {
+          width: '100px', targets: 0
+        },
+        {
+          width: '90px', targets: [2]
+        },
+        {
+          className: 'text-center', targets: [2]
+        }
+      ]
+    });
+  }
+
+  $('#emp-outro-user').on('click', '#outros-usuarios', function () {
+    var registro = $(this).data('id');
+    csrfToken = $('input[name="csrf_test_name"]').val();
+
+    $.ajax({
+      type: "POST",
+      headers: {
+        "X-CSRF-Token": csrfToken,
+      },
+      url: "/responsavel/excluir",
+      data: { id: registro },
+      success: function (response) {
+        $('#liveToast').toast('show');
+      },
+      error: function () {
+      },
+    });
   });
 });
