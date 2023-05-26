@@ -81,12 +81,12 @@
 
   <script src="<?php echo site_url('assets/'); ?>jquery/jquery.mask.min.js"></script>
   <script src="<?php echo site_url('assets'); ?>/js/app.js"></script>
+  <script src="<?php echo site_url("assets/js/scripts-comuns.js") ?>"></script>
   <script src="<?php echo site_url("assets/js/scripts.js") ?>"></script>
   <script src="<?php echo site_url("assets/js/customer.script.js") ?>"></script>
   <script src="<?php echo site_url("assets/jquery/jquery.itens.js") ?>"></script>
-  <script src="<?php echo site_url("assets/js/scripts-comuns.js") ?>"></script>
 
-
+  <?php echo $this->renderSection('scripts'); ?>
 </body>
 
 </html>

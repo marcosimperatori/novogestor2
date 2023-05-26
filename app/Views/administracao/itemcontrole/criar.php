@@ -17,13 +17,11 @@
     <div id="response"></div>
     <?php echo form_open('/', ['id' => 'form_cad_item', 'class' => 'insert'], ['id' => "$itemcontrole->id"]) ?>
     <div class="row">
-
-
       <div class="col-lg-12">
         <?php echo $this->include('administracao/itemcontrole/_form'); ?>
         <div class="form-group mt-4 text-right">
           <input id="btn-salvar" type="submit" value="Salvar" class="btn btn-success btn-sm mr-e mb-2">
-          <a href="<?php echo site_url("usuarios"); ?>" class="btn btn-secondary btn-sm ml-2 mb-2">Cancelar</a>
+          <a href="<?php echo site_url("administracao/itemcontrole"); ?>" class="btn btn-secondary btn-sm ml-2 mb-2">Cancelar</a>
         </div>
       </div>
 
@@ -34,5 +32,12 @@
 </section>
 
 
+
+<?php $this->endSection(); ?>
+
+
+<?php echo $this->section('scripts'); ?>
+
+<script src="<?php echo site_url("assets/js/item.controle.js") ?>"></script>
 
 <?php $this->endSection(); ?>

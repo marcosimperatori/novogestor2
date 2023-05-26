@@ -46,3 +46,45 @@ function exibirErros(erros_model) {
         }
     });
 }
+
+function createToast(icone, titulo, mensagem, idElementoHtml) {
+    // Criar elemento do toast
+    var toastEl = document.createElement('div');
+    toastEl.classList.add('toast');
+    toastEl.setAttribute('role', 'alert');
+    toastEl.setAttribute('aria-live', 'assertive');
+    toastEl.setAttribute('aria-atomic', 'true');
+    toastEl.setAttribute('name', 'msgtouser');
+
+    var meuHtml = ' <div class="toast-header">' +
+        '<strong class="mr-auto">' + icone + '&nbsp;' + titulo + '</strong>' +
+        `<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Fechar">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="toast-body">` +
+        mensagem +
+        '</div>';
+
+    toastEl.innerHTML = meuHtml;
+
+    // Adicionar toast ao container
+    var toastContainer = document.getElementById(idElementoHtml);
+    toastContainer.appendChild(toastEl);
+
+    // Criar objeto Toast
+    var toast = new bootstrap.Toast(toastEl, {
+        //autohide: true, // Esconder o toast automaticamente
+        delay: 5000
+    });
+
+    console.log('aqui');
+    // Adicionar evento de ocultação do toast
+    toastEl.addEventListener('hidden.bs.toast', function () {
+        // Remover o elemento do toast do seu container pai
+        toastEl.parentNode.removeChild(toastEl);
+    });
+
+    // Exibir o toast
+    toast.show();
+}

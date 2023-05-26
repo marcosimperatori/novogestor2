@@ -9,7 +9,7 @@ class TabItensControle extends Migration
     public function up()
     {
         $this->forge->addField([
-            'iddepto' => [
+            'depto' => [
                 'type' => 'INT',
                 'constraint' => 9,
                 'unsigned' => true,

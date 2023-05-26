@@ -69,9 +69,12 @@ $routes->post('responsavel/vincular', 'ConfigClientes::vincularCliente');
 
 $routes->get('administracao/itemcontrole', 'ItemControle::index');
 $routes->get('administracao/itemcontrole/criar', 'ItemControle::criar');
+$routes->get('administracao/itemcontrole/editar/(:num)', 'ItemControle::editar/$1');
 
 //rotas ajax
 $routes->get('administracao/itens', 'ItemControle::recuperaItensControle');
+$routes->post('itens/cadastrar', 'ItemControle::cadastrar');
+$routes->post('itens/atualizar', 'ItemControle::atualizar');
 
 /*
 /*

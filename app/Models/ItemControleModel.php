@@ -14,18 +14,20 @@ class ItemControleModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nome', 'tipo', 'obsitem'
+        'nome', 'tipo', 'obsitem', 'depto'
     ];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'criado_em';
     protected $updatedField  = 'atualizado_em';
     // Validation
     protected $validationRules      = [
-        'nome'      => 'required|min_length[3]|max_length[120]|is_unique[itemcontrole.nome,id,{$id}]',
-        'obsitem'    => 'max_length[250]',
+        'nome'    => 'required|min_length[3]|max_length[120]|is_unique[itemcontrole.nome,id,{$id}]',
+        'obsitem' => 'max_length[250]',
+        'depto'   => 'is_natural_no_zero',
+        'tipo'    => 'is_natural_no_zero',
     ];
 
     protected $validationMessages   = [
@@ -37,6 +39,12 @@ class ItemControleModel extends Model
         ],
         'obsitem' => [
             'max_length'  => 'O apelido pode ter no máximo 250 caracteres.',
+        ],
+        'depto' => [
+            'is_natural_no_zero' => 'Selecione o departamento'
+        ],
+        'tipo' => [
+            'is_natural_no_zero' => 'Selecione o tipo'
         ],
     ];
 }

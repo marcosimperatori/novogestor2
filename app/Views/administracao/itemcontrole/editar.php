@@ -6,8 +6,8 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="<?php echo site_url("/"); ?>">Home</a></li>
       <li class="breadcrumb-item"><a href="<?php echo site_url("administracao"); ?>">Administração</a></li>
-      <li class="breadcrumb-item"><a href="<?php echo site_url("usuarios"); ?>">Usuários</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Cadastro do usuário</li>
+      <li class="breadcrumb-item"><a href="<?php echo site_url("administracao/itemcontrole"); ?>">Itens de controle</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Editando item</li>
     </ol>
   </nav>
 </div>
@@ -15,42 +15,20 @@
 <section>
   <div id="response"></div>
   <div class="jumbotron">
-    <?php echo form_open_multipart('/', ['id' => 'form_cad_user', 'class' => 'update'], ['id' => "$usuario->id"]) ?>
+    <?php echo form_open_multipart('/', ['id' => 'form_cad_item', 'class' => 'update'], ['id' => "$itemcontrole->id"]) ?>
     <div class="row">
-      <div class="col-lg-3 mt-2">
-        <div class="text-center">
-          <?php if ($usuario->imagem == null) : ?>
-
-            <img id="imagemPreview" src="<?php echo site_url('assets/img/user_sem_imagem.png') ?>" class="card-img-top" style="height: 180px; width: 150px;" alt="usuário sem imagem">
-
-          <?php else : ?>
-
-            <img id="imagemPreview" src="<?php echo site_url("usuarios/imagem/$usuario->imagem") ?>" class="card-img-top" style="width: 90%;" alt="<?php echo esc($usuario->nome) ?>">
-          <?php endif; ?>
-          <br>
-          <a id="carregarImagemLink" href="#" class="btn btn-outline-success btn-sm mt-3">Carregar imagem</a>
-          <input id="imagemInput" name="imagem" type="file" style="display: none;" accept=".jpg,.jpeg,.png">
-        </div>
-        <br>
-        <p class="card-text">Criado <?php echo $usuario->criado_em->humanize(); ?></p>
-        <p class="card-text mb-3">Alterado <?php echo $usuario->atualizado_em->humanize(); ?></p>
-
-      </div>
-      <hr class="border-secondary">
-      <div class="col-lg-9">
-
-
-        <?php echo $this->include('usuarios/_form'); ?>
+      <div class="col-lg-12">
+        <?php echo $this->include('administracao/itemcontrole/_form'); ?>
         <div class="row">
           <div class="col-6">
             <div class="form-group mt-4 text-left">
-              <a href="#" class="btn btn-danger btn-sm ml-2 delete-user mb-2" data-id="<?php echo $usuario->id; ?>" data-nome="<?php echo $usuario->nome; ?>" data-toggle="modal" data-target="#excluirModal">Excluir</a>
+              <a href="#" class="btn btn-danger btn-sm ml-2 delete-user mb-2" data-id="<?php echo $itemcontrole->id; ?>" data-nome="<?php echo $itemcontrole->nome; ?>" data-toggle="modal" data-target="#excluirModal">Excluir</a>
             </div>
           </div>
           <div class="col-6">
             <div class="form-group mt-4 text-right">
               <input id="btn-salvar" type="submit" value="Salvar" class="btn btn-success btn-sm mr-e mb-2">
-              <a href="<?php echo site_url("usuarios"); ?>" class="btn btn-secondary btn-sm ml-2 mb-2">Cancelar</a>
+              <a href="<?php echo site_url("administracao/itemcontrole"); ?>" class="btn btn-secondary btn-sm ml-2 mb-2">Cancelar</a>
             </div>
           </div>
         </div>
@@ -83,5 +61,12 @@
   </div>
 </div>
 
+
+<?php $this->endSection(); ?>
+
+
+<?php echo $this->section('scripts'); ?>
+
+<script src="<?php echo site_url("assets/js/item.controle.js") ?>"></script>
 
 <?php $this->endSection(); ?>
