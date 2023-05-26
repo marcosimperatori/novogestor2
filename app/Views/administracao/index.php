@@ -83,10 +83,10 @@
       <div class="card">
         <div class="card-header">
           <i class="fas fa-grip-horizontal text-danger"></i>
-          Permissões
+          Itens de controle
         </div>
         <div class="card-body">
-          <a href="#" class="card-link btn btn-primary btn-sm">Acessar</a>
+          <a href="<?php echo site_url("administracao/itemcontrole"); ?>" class="card-link btn btn-primary btn-sm">Acessar</a>
         </div>
       </div>
     </div>

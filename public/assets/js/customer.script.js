@@ -39,7 +39,7 @@ $(document).ready(function () {
         data: "apelido",
       },
       {
-        data: "email",
+        data: "vecto",
       },
       {
         data: "ativo",
@@ -53,6 +53,17 @@ $(document).ready(function () {
     responsive: true,
     pagingType: $(window).width() < 768 ? "simple" : "simple_numbers",
     pageLength: 10,
+    columnDefs: [
+      {
+        width: '100px', targets: [1, 2]
+      },
+      {
+        width: '90px', targets: [2]
+      },
+      {
+        className: 'text-center', targets: [1]
+      },
+    ]
   });
 
   $("#form_cad_customer").on("submit", function (e) {
@@ -170,12 +181,8 @@ $(document).ready(function () {
         data: { id: id },
         url: "/administracao/divisaoempresas",
         beforeSend: function () {
-          $(".busca-sem-mov").LoadingOverlay("show", {
-            background: "rgba(165, 190, 100, 0.5)",
-          });
         },
         complete: function () {
-          $(".busca-sem-mov").LoadingOverlay("hide");
         },
       },
       columns: [
@@ -229,12 +236,8 @@ $(document).ready(function () {
         data: { id: id },
         url: "/administracao/empresasoutroresponsavel",
         beforeSend: function () {
-          $("#busca-sem-mov").LoadingOverlay("show", {
-            background: "rgba(165, 190, 100, 0.5)",
-          });
         },
         complete: function () {
-          $("#busca-sem-mov").LoadingOverlay("hide");
         },
       },
       columns: [
@@ -286,12 +289,8 @@ $(document).ready(function () {
         data: { id: id },
         url: "/administracao/empresasresponsavel",
         beforeSend: function () {
-          $("#busca-sem-mov").LoadingOverlay("show", {
-            background: "rgba(165, 190, 100, 0.5)",
-          });
         },
         complete: function () {
-          $("#busca-sem-mov").LoadingOverlay("hide");
         },
       },
       columns: [
@@ -342,27 +341,26 @@ $(document).ready(function () {
     empresasDoUsuario();
   }
 
-  function createToast() {
+  function createToast(icone, mensagem) {
     // Criar elemento do toast
     var toastEl = document.createElement('div');
     toastEl.classList.add('toast');
     toastEl.setAttribute('role', 'alert');
     toastEl.setAttribute('aria-live', 'assertive');
     toastEl.setAttribute('aria-atomic', 'true');
-    toastEl.setAttribute('name', 'marcos');
+    toastEl.setAttribute('name', 'msgtouser');
 
-    // Criar conteúdo do toast
-    toastEl.innerHTML = `   
-      <div class="toast-header">
-        <strong class="mr-auto"><i class="fas fa-check-circle text-success"></i>&nbsp;Registro atualizado</strong>
-        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="toast-body">
-        Sua ação foi concluída com sucesso!
-      </div>
-  `;
+    var meuHtml = ' <div class="toast-header">' +
+      '<strong class="mr-auto">' + icone + '&nbsp;Registro atualizado</strong>' +
+      `<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Fechar">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="toast-body">` +
+      mensagem +
+      '</div>';
+
+    toastEl.innerHTML = meuHtml;
 
     // Adicionar toast ao container
     var toastContainer = document.getElementById('toastContainer');
@@ -398,11 +396,16 @@ $(document).ready(function () {
       data: { id: registro },
       success: function (response) {
         $("[name='csrf_test_name']").val(response.token);
-        createToast();
+        var icone = '<i class="fas fa-check-circle text-success"></i>';
+        var mensagem = 'Sua ação foi executada com sucesso!';
+        createToast(icone, mensagem);
         outrosUsuarios();
         empresasSemUsuario();
       },
       error: function () {
+        var icone = '<i class="fas fa-thumbs-down text-danger"></i>';
+        var mensagem = 'Falha ao executar a ação!';
+        createToast(icone, mensagem);
       },
     });
   });
@@ -420,11 +423,16 @@ $(document).ready(function () {
       data: { id: registro },
       success: function (response) {
         $("[name='csrf_test_name']").val(response.token);
-        createToast();
+        var icone = '<i class="fas fa-check-circle text-success"></i>';
+        var mensagem = 'Sua ação foi executada com sucesso!';
+        createToast(icone, mensagem);
         empresasDoUsuario();
         empresasSemUsuario();
       },
       error: function () {
+        var icone = '<i class="fas fa-thumbs-down text-danger"></i>';
+        var mensagem = 'Falha ao executar a ação!';
+        createToast(icone, mensagem);
       },
     });
   });
@@ -443,12 +451,17 @@ $(document).ready(function () {
       data: { idUsuario: usuario, idCliente: empresa },
       success: function (response) {
         $("[name='csrf_test_name']").val(response.token);
-        createToast();
+        var icone = '<i class="fas fa-check-circle text-success"></i>';
+        var mensagem = 'Sua ação foi executada com sucesso!';
+        createToast(icone, mensagem);
         empresasSemUsuario();
         empresasDoUsuario();
         outrosUsuarios();
       },
       error: function () {
+        var icone = '<i class="fas fa-thumbs-down text-danger"></i>';
+        var mensagem = 'Falha ao executar a ação!';
+        createToast(icone, mensagem);
       },
     });
   });

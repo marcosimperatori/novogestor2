@@ -17,7 +17,9 @@ class ConfigClientes extends BaseController
     {
         $usuarioModel = new \App\Models\UsuarioModel();
 
-        $usuarios = $usuarioModel->orderBy('nome', 'asc')
+        $usuarios = $usuarioModel->select('usuarios.id, usuarios.nome, departamentos.nome AS depto')
+            ->join('departamentos', 'departamentos.id = usuarios.depto')
+            ->orderBy('nome', 'asc')
             ->withDeleted(false)->findAll();
 
         $data = [
@@ -87,22 +89,23 @@ class ConfigClientes extends BaseController
         $deparmentoModel = new \App\Models\DepartamentoModel();
 
 
-        $listaDeptos1 = $deparmentoModel
+        $usuariosDepto = $deparmentoModel
             ->select('usuarios.id, usuarios.nome, usuarios.imagem')
-            ->join('clientesresponsavel', 'clientesresponsavel.iddepto = departamentos.id')
-            ->join('usuarios', 'usuarios.id = clientesresponsavel.idusuario')
-            ->where('clientesresponsavel.iddepto', $usuario->depto)
+            ->join('usuarios', 'usuarios.depto = departamentos.id')
+            ->where('usuarios.deletado_em IS NULL')
+            ->where('departamentos.id', $usuario->depto)
+            ->groupBy('usuarios.nome')
             ->orderBy('nome', 'asc')->findAll();
 
 
-        $listaDeptos = $usuarioAtivo->orderBy('nome', 'asc')->findAll();
+        $listaDeptos2 = $usuarioAtivo->orderBy('nome', 'asc')->findAll();
 
         $data = [];
 
         foreach ($lista as $retorno) {
             $imagens = '';
 
-            foreach ($listaDeptos as $user) {
+            foreach ($usuariosDepto as $user) {
                 if ($user->imagem != null) {
                     $imagem = [
                         'src'   => site_url("usuarios/imagem/$user->imagem"),
@@ -113,6 +116,7 @@ class ConfigClientes extends BaseController
                         'data-usuario' => $user->id,
                         'data-empresa' => $retorno->id,
                         'id' => "img-usuario",
+                        'style' => 'cursor:pointer',
                     ];
                 } else {
                     $imagem = [
@@ -124,6 +128,7 @@ class ConfigClientes extends BaseController
                         'data-usuario' => $user->id,
                         'data-empresa' => $retorno->id,
                         'id' => "img-usuario",
+                        'style' => 'cursor:pointer',
                     ];
                 }
 
@@ -276,7 +281,7 @@ class ConfigClientes extends BaseController
         $cliente = new \App\Models\ClienteResponsavelModel();
 
         $id = $this->request->getPost('id');
-        $respCliente = $this->buscaUsuarioOu404($id);
+        $respCliente = $cliente->find($id);
 
         $cliente->delete($respCliente->id);
         $retorno['resultado'] = 'Cliente desvinculado do usuário, com sucesso!';

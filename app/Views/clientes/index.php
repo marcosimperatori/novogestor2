@@ -22,7 +22,7 @@
           <thead>
             <tr>
               <th>Apelido</th>
-              <th>Email</th>
+              <th>Cert. Digital</th>
               <th>Situação</th>
             </tr>
           </thead>

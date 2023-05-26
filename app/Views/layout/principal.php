@@ -83,6 +83,7 @@
   <script src="<?php echo site_url('assets'); ?>/js/app.js"></script>
   <script src="<?php echo site_url("assets/js/scripts.js") ?>"></script>
   <script src="<?php echo site_url("assets/js/customer.script.js") ?>"></script>
+  <script src="<?php echo site_url("assets/jquery/jquery.itens.js") ?>"></script>
 
 
 </body>

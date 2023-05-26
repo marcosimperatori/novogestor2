@@ -26,7 +26,7 @@ class Clientes extends BaseController
             return redirect()->back();
         }
 
-        $atributos = ['id', 'codigo', 'apelido', 'ativo'];
+        $atributos = ['id', 'codigo', 'apelido', 'ativo', 'vectocertificado'];
 
         $clientes = $this->clienteModel->select($atributos)->orderBy('apelido', 'asc')->findAll();
 
@@ -34,29 +34,11 @@ class Clientes extends BaseController
         $data = [];
 
         foreach ($clientes as $cliente) {
-            /* if ($cliente->imagem != null) {
-                $imagem = [
-                    'src'   => site_url("clientes/imagem/$cliente->imagem"),
-                    'class' => 'rounded-circle img-fluid',
-                    'alt'   => esc($cliente->nome),
-                    'title' => esc($cliente->nome),
-                    'width' => '45'
-                ];
-            } else {
-                $imagem = [
-                    'src'   => site_url("assets/img/user_sem_imagem.png"),
-                    'class' => 'rounded-circle img-fluid',
-                    'alt'   => "Usuário sem imagem",
-                    'title' => esc($cliente->nome),
-                    'width' => '45'
-                ];
-            }*/
-
-
             $data[] = [
                 //'imagem' => $cliente->imagem = img($imagem),
                 'apelido' => anchor("administracao/clientes/editar/$cliente->id", esc($cliente->apelido), 'title="Exibir detalhes do cliente"'),
-                'email' => esc($cliente->email),
+                //'email' => esc($cliente->email),
+                'vecto' => date('d/m/Y', strtotime($cliente->vectocertificado)),
                 'ativo' => ($cliente->ativo == true ? '<i class="fa fa-unlock text-success"></i>&nbsp;Ativo' : '<i class="fa fa-lock text-danger"></i>&nbsp;Inativo'),
             ];
         }
@@ -143,7 +125,7 @@ class Clientes extends BaseController
         //preenchendo os atributos com os valores que vieram do post
         //o ci4 consegue preencher o objeto com os dados do formulário graças a entidade de classe
         $cliente->fill($post);
-        
+
         //verificando se o objeto teve alguma alteração nos seus atributos
         if ($cliente->hasChanged() == false) {
             $retorno['info'] = "Não houve alteração no registro!";

@@ -41,7 +41,7 @@
       <select id="list-users" name="depto" class="form-control">
         <option value=''>Selecione...</option>
         <?php foreach ($usuarios as $usuario) : ?>
-          <option value="<?php echo $usuario->id; ?>"><?php echo $usuario->nome; ?></option>
+          <option value="<?php echo $usuario->id; ?>"><?php echo $usuario->nome . ' (' . $usuario->depto . ' )' ?></option>
         <?php endforeach; ?>
       </select>
     </div>
@@ -143,7 +143,7 @@
               </table>
             </div>
           </div>
-          <span class="ml-3 text-muted">* Em relação ao departamento que o usuário está vinculado</span>
+          <small class="ml-3 text-danger">*Em relação ao departamento que o usuário está vinculado</small>
         </div>
       </div>
     </div>

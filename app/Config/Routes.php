@@ -66,6 +66,13 @@ $routes->get('administracao/empresasresponsavel', 'ConfigClientes::empresasRespo
 
 $routes->post('responsavel/excluir', 'ConfigClientes::excluir');
 $routes->post('responsavel/vincular', 'ConfigClientes::vincularCliente');
+
+$routes->get('administracao/itemcontrole', 'ItemControle::index');
+$routes->get('administracao/itemcontrole/criar', 'ItemControle::criar');
+
+//rotas ajax
+$routes->get('administracao/itens', 'ItemControle::recuperaItensControle');
+
 /*
 /*
 
