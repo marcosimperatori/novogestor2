@@ -30,8 +30,9 @@ class ClienteModel extends Model
         'codigo'     => 'required',
         'razao'      => 'required|max_length[250]|is_unique[clientes.razao,id,{$id}]',
         'apelido'    => 'required|max_length[250]|is_unique[clientes.apelido,id,{$id}]',
-        'cnpj'       => 'required|max_length[18]|is_unique[clientes.cnpj,id,{$id}]',
-        'ie'         => 'is_unique[clientes.ie,id,{$id}]'
+        'cnpj'       => 'required|exact_length[18]|is_unique[clientes.cnpj,id,{$id}]',
+        'email'      => 'permit_empty|is_unique[clientes.email,id,{$id}]',
+        'ie'         => 'permit_empty|is_unique[clientes.ie,id,{$id}]'
     ];
 
     protected $validationMessages   = [
@@ -42,7 +43,7 @@ class ClienteModel extends Model
             'required'   => 'A razão social é obrigatória.',
             'min_length' => 'A razão social precisa ter ao menos 03 caracteres.',
             'max_length' => 'A razão social pode ter no máximo 250 caracteres.',
-            'is_unique'   => 'Esta razão social já está sendo usado'
+            'is_unique'  => 'Esta razão social já está sendo usado'
         ],
         'apelido' => [
             'required'    => 'O campo apelido é obrigatório.',
@@ -50,10 +51,15 @@ class ClienteModel extends Model
             'is_unique'   => 'Este apelido já está sendo usado'
         ],
         'cnpj' => [
-            'required'    => 'O CNPJ apelido é obrigatório.',
-            'max_length'  => 'O CNPJ pode ter no máximo 18 caracteres.',
-            'is_unique'   => 'O CNPJ já está sendo usado'
+            'required'     => 'O CNPJ é obrigatório.',
+            'exact_length' => 'O CNPJ pode ter no máximo 18 caracteres.',
+            'is_unique'    => 'O CNPJ já está sendo usado'
         ],
-        'ie' => 'Esta inscrição já sendo utilizada'
+        'ie' => [
+            'is_unique' => 'Esta inscrição estadual já está sendo utilizada'
+        ],
+        'email' => [
+            'is_unique' => 'Este email já está sendo utilizado'
+        ],
     ];
 }

@@ -110,25 +110,8 @@ $(document).ready(function () {
             window.location.href = "/administracao/clientes";
           }
         } else {
-          //existem erros de validação
-
-          $("#response").html(
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-            response.erro +
-            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-            '<span aria-hidden="true">&times;</span>' +
-            "</button>" +
-            "</div>"
-          );
-
           if (response.erros_model) {
-            $.each(response.erros_model, function (key, value) {
-              $("#response").append(
-                '<ul class="list-unstyled"><li class="text-danger alert-danger">' +
-                value +
-                "</li></ul>"
-              );
-            });
+            exibirErros(response.erros_model);
           }
         }
       },

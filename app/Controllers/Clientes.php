@@ -146,7 +146,7 @@ class Clientes extends BaseController
     }
 
     /**
-     * Método que recupera o usuário
+     * Método que recupera o cliente
      *
      * @param integer|null $id
      * @return Exception|object

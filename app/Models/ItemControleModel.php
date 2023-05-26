@@ -24,7 +24,7 @@ class ItemControleModel extends Model
     protected $updatedField  = 'atualizado_em';
     // Validation
     protected $validationRules      = [
-        'nome'      => 'required|min_length[3]||max_length[120]|is_unique[itemcontrole.nome,id,{$id}]',
+        'nome'      => 'required|min_length[3]|max_length[120]|is_unique[itemcontrole.nome,id,{$id}]',
         'obsitem'    => 'max_length[250]',
     ];
 

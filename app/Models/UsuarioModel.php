@@ -20,6 +20,7 @@ class UsuarioModel extends Model
         'reset_hash',
         'reset_expira_em',
         'imagem',
+        'depto',
         //o campo ativo será alterado via manipulação de formulário
     ];
 
@@ -36,6 +37,7 @@ class UsuarioModel extends Model
         'email'                 => 'required|valid_email|max_length[250]|is_unique[usuarios.email,id,{$id}]',
         'password'              => 'required|min_length[6]',
         'password_confirmation' => 'required_with[password]|matches[password]',
+        'depto'                 => 'is_natural_no_zero',
     ];
 
     protected $validationMessages   = [
@@ -55,9 +57,12 @@ class UsuarioModel extends Model
             'min_length'  => 'A SENHA precisa ter no mínimo 06 caracteres.',
         ],
         'password_confirmation' => [
-            'required_with' => 'Por favor, confirme sua senha.',
-            'matches'       => 'As senhas não são iguais.'
+            'required_with'     => 'Por favor, confirme sua senha.',
+            'matches'           => 'As senhas não são iguais.'
         ],
+        'depto' => [
+            'is_natural_no_zero' => 'Selecione um departamento',
+        ]
     ];
 
     // Callbacks

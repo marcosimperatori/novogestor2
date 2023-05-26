@@ -35,7 +35,7 @@ class TabClienteResponsavel extends Migration
                 'null' => true,
                 'default' => null,
             ],
-            'alterado_em' => [
+            'atualizado_em' => [
                 'type' => 'DATETIME',
                 'null' => true,
                 'default' => null,

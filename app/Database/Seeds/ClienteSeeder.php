@@ -12,7 +12,7 @@ class ClienteSeeder extends Seeder
 
         $faker = \Faker\Factory::create('pt_BR');
 
-        $qteRegistros = 100;
+        $qteRegistros = 50;
 
         $clientes = [];
         $ie = 1000;
@@ -26,7 +26,7 @@ class ClienteSeeder extends Seeder
             $certificado = new \DateTime();
             $certificado->setDate(rand(2018, 2025), rand(1, 12), rand(1, 30));
 
-            $ie += 1;
+            $ie += 101;
 
             array_push($clientes, [
                 'razao'             => $nome,

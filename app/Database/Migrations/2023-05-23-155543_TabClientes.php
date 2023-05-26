@@ -34,11 +34,17 @@ class TabClientes extends Migration
                 'constraint' => 150,
                 'null' => false
             ],
+            'email' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
+                'default' => ''
+            ],
             'ie' => [
                 'type' => 'VARCHAR',
                 'constraint' => 150,
                 'null' => true,
-                'default' => null,
+                'default' => ''
             ],
             'codigosimples' => [
                 'type' => 'VARCHAR',
@@ -64,14 +70,8 @@ class TabClientes extends Migration
                 'null' => true,
                 'default' => null,
             ],
-            'email' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => true,
-                'default' => null,
-            ],
             'clientedesde' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
                 'null' => true,
                 'default' => null,
             ],
@@ -88,7 +88,7 @@ class TabClientes extends Migration
                 'default' => null,
             ],
             'vectocertificado' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
                 'null' => true,
                 'default' => null,
             ],
@@ -151,8 +151,6 @@ class TabClientes extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addUniqueKey('razao');
         $this->forge->addUniqueKey('cnpj');
-        $this->forge->addUniqueKey('email');
-        //$this->forge->addUniqueKey('ie');
         $this->forge->createTable('clientes');
     }
 
