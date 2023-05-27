@@ -71,11 +71,15 @@ $routes->get('administracao/itemcontrole', 'ItemControle::index');
 $routes->get('administracao/itemcontrole/criar', 'ItemControle::criar');
 $routes->get('administracao/itemcontrole/editar/(:num)', 'ItemControle::editar/$1');
 
+$routes->get('administracao/controlecliente', 'ControleEmpresa::index');
+
 //rotas ajax
 $routes->get('administracao/itens', 'ItemControle::recuperaItensControle');
 $routes->post('itens/cadastrar', 'ItemControle::cadastrar');
 $routes->post('itens/atualizar', 'ItemControle::atualizar');
 
+$routes->get('clientes/consulta', 'ControleEmpresa::listarClientes');
+$routes->get('itens/consulta', 'ControleEmpresa::listarItens');
 /*
 /*
 
