@@ -13,25 +13,29 @@
 
 <div class="jumbotron">
     <?php echo form_open('/', ['id' => 'form_cad_controle']) ?>
-    <div class="row">
-        <div class="col-lg-7">
+    Adicionar novos itens de controle
+    <div class="row mt-3">
+        <div class="col-lg-6 msg-erros">
             <label class="form-control-label">Cliente</label>
-
             <input type="text" name="idcliente" id="idcliente">
         </div>
     </div>
     <div class="row mt-2">
-        <div class="col-lg-7">
-            <label class="form-control-label">Item</label>
-
-
+        <div class="col-lg-6 msg-erros">
+            <label class="form-control-label">Itens</label>
             <input type="text" name="iditem" multiple id="iditem">
         </div>
 
-        <div class="form-group col-lg-2">
+        <div class="form-group col-lg-2 msg-erros">
             <label class="form-control-label">A partir de</label>
-            <input type="date" name="inicio" placeholder="Data admissão" class="form-control form-control-sm" value="<?php /*echo ($cliente->clientedesde !== null ? date('Y-m-d', strtotime($cliente->clientedesde)) : '');*/ ?>">
+            <input type="text" id="inicio" name="inicio" placeholder="Data início" autocomplete="off" class="form-control form-control-sm competencia" value="<?php /*echo ($cliente->clientedesde !== null ? date('Y-m-d', strtotime($cliente->clientedesde)) : '');*/ ?>">
         </div>
+
+        <div class="form-group col-lg-2">
+            <label class="form-control-label">Finaliza em</label>
+            <input type="text" name="final" placeholder="Data fim" autocomplete="off" class="form-control form-control-sm competencia" value="<?php /*echo ($cliente->clientedesde !== null ? date('Y-m-d', strtotime($cliente->clientedesde)) : '');*/ ?>">
+        </div>
+
         <div class="form-group col-lg-2">
             <br>
             <button type="submit" class="btn btn-success btn-sm mt-2">Adicionar</button>
@@ -41,17 +45,18 @@
 </div>
 
 <div class="jumbotron">
-    <div class="row">
+    Itens que estão controlados pelo cliente selecionado
+    <div class="row mt-3">
         <div class="col-lg-12">
-
             <div class="table-responsive">
-                <table id="tableusers" class="table table-striped table-sm" style="width: 100%;">
+                <table id="tab-itens-controle" class="table table-striped table-sm" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>Imagem</th>
                             <th>Nome</th>
-                            <th>Email</th>
-                            <th>Situação</th>
+                            <th>Departamento</th>
+                            <th>Início</th>
+                            <th>Final</th>
+                            <th>Tipo</th>
                         </tr>
                     </thead>
                 </table>

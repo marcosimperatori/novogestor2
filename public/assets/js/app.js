@@ -12,6 +12,7 @@ $(function () {
   $(".card_month").mask("00");
   $(".card_year").mask("0000");
   $(".card_cvv").mask("0000"); // Algumas bandeiras são 3 e outros 4
+  $(".competencia").mask("00/0000", {clearIfNotMatch: true})
 
   var SPMaskBehavior = function (val) {
       return val.replace(/\D/g, "").length === 11

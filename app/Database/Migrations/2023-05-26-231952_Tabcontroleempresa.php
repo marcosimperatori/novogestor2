@@ -26,12 +26,12 @@ class Tabcontroleempresa extends Migration
                 'unsigned' => true,
             ],
             'inicio' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
                 'null' => true,
                 'default' => null,
             ],
             'final' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
                 'null' => true,
                 'default' => null,
             ],

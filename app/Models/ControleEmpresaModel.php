@@ -23,19 +23,48 @@ class ControleEmpresaModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'idcliente' => 'is_natural_no_zero',
-        'iditem   ' => 'is_natural_no_zero',
+        'idcliente' => 'is_natural_no_zero|required_without[idcliente]',
+        'iditem'    => 'is_natural_no_zero|required_without[iditem]',
         'inicio'    => 'required',
     ];
     protected $validationMessages   = [
         'idcliente' => [
-            'is_natural_no_zero' => 'Informe o cliente'
+            'is_natural_no_zero' => 'Informe o cliente',
+            'required_without'   => 'Informe o cliente',
         ],
         'iditem' => [
-            'is_natural_no_zero' => 'Escolha ao menos um item para controlar'
+            'is_natural_no_zero' => 'Escolha ao menos um item para controlar',
+            'required_without'   => 'Escolha ao menos um item para controlar',
         ],
         'inicio' => [
-            'is_natural_no_zero' => 'Selecione uma data'
+            'required' => 'Selecione uma data'
         ],
     ];
+
+    protected $beforeInsert   = ['dataParaCompetencia'];
+
+
+    protected function dataParaCompetencia(array $data)
+    {
+        // Verifique se o campo 'data_coluna' está presente nos dados inseridos
+        if (isset($data['data']['inicio'])) {
+
+            $competencia = explode('/', $data['data']['inicio']);
+            $ano = $competencia[1];
+            $mes = $competencia[0];
+            $dataCompleta = $ano . '-' . str_pad($mes, 2, '0', STR_PAD_LEFT) . '-01';
+            $data['data']['inicio'] = $dataCompleta;
+        }
+
+        if (isset($data['data']['final'])) {
+
+            $competencia = explode('/', $data['data']['final']);
+            $ano = $competencia[1];
+            $mes = $competencia[0];
+            $dataCompleta = $ano . '-' . str_pad($mes, 2, '0', STR_PAD_LEFT) . '-01';
+            $data['data']['final'] = $dataCompleta;
+        }
+
+        return $data;
+    }
 }

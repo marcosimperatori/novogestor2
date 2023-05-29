@@ -73,5 +73,5 @@ abstract class BaseController extends Controller
 
         readfile($path);
         exit;
-    }
+    }    
 }

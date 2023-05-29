@@ -80,6 +80,8 @@ $routes->post('itens/atualizar', 'ItemControle::atualizar');
 
 $routes->get('clientes/consulta', 'ControleEmpresa::listarClientes');
 $routes->get('itens/consulta', 'ControleEmpresa::listarItens');
+$routes->get('itens/controlecliente', 'ControleEmpresa::listarItensControlados');
+$routes->post('clientes/itens/cadastrar', 'ControleEmpresa::cadastrar');
 /*
 /*
 
