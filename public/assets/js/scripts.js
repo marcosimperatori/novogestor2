@@ -2,7 +2,17 @@ $(document).ready(function () {
 
   $("#tableusers").DataTable({
     oLanguage: DATATABLE_PTBR,
-    ajax: "usuarios/recuperausuarios",
+    ajax: {
+      url: "usuarios/recuperausuarios",
+      beforeSend: function () {
+        $("#tableusers").LoadingOverlay("show", {
+          background: "rgba(165, 190, 100, 0.5)",
+        });
+      },
+      complete: function () {
+        $("#tableusers").LoadingOverlay("hide");
+      },
+    },
     columns: [
       {
         data: "imagem",
@@ -18,7 +28,7 @@ $(document).ready(function () {
       },
     ],
     deferRender: true,
-    processing: true,
+    processing: false,
     language: {
       processing: '<i class"fa fa-spinner fa-spin fa-3x fa-fw"></i>',
     },

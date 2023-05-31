@@ -36,7 +36,7 @@ function exibirErros(erros_model) {
             var errorContainer = errorElement.next('.error');
             if (errorContainer.length === 0) {
                 errorContainer = $('<div class="error text-danger" style="font-size: 13px"></div>');
-                errorElement.append(errorContainer);
+                errorElement.after(errorContainer);
             }
             errorContainer.text(value);
 

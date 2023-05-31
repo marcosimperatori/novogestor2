@@ -1,7 +1,17 @@
 
 $("#tab-obrigacoes").DataTable({
     oLanguage: DATATABLE_PTBR,
-    ajax: "/administracao/itens",
+    ajax: {
+        url: "/administracao/itens",
+        beforeSend: function () {
+            $("#tab-obrigacoes").LoadingOverlay("show", {
+                background: "rgba(165, 190, 100, 0.5)",
+            });
+        },
+        complete: function () {
+            $("#tab-obrigacoes").LoadingOverlay("hide");
+        },
+    },
     columns: [
         {
             data: "nome",
@@ -14,7 +24,7 @@ $("#tab-obrigacoes").DataTable({
         },
     ],
     deferRender: true,
-    processing: true,
+    processing: false,
     language: {
         processing: '<i class"fa fa-spinner fa-spin fa-3x fa-fw"></i>',
     },

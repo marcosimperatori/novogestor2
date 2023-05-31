@@ -33,7 +33,17 @@ $(document).ready(function () {
 
   $("#tableclientes").DataTable({
     oLanguage: DATATABLE_PTBR,
-    ajax: "/clientes/recuperaclientes",
+    ajax: {
+      url: "/clientes/recuperaclientes",
+      beforeSend: function () {
+        $("#tableclientes").LoadingOverlay("show", {
+          background: "rgba(165, 190, 100, 0.5)",
+        });
+      },
+      complete: function () {
+        $("#tableclientes").LoadingOverlay("hide");
+      },
+    },
     columns: [
       {
         data: "apelido",
@@ -46,9 +56,9 @@ $(document).ready(function () {
       },
     ],
     deferRender: true,
-    processing: true,
+    processing: false,
     language: {
-      processing: '<i class"fa fa-spinner fa-spin fa-3x fa-fw"></i>',
+      processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>',
     },
     responsive: true,
     pagingType: $(window).width() < 768 ? "simple" : "simple_numbers",
@@ -164,8 +174,12 @@ $(document).ready(function () {
         data: { id: id },
         url: "/administracao/divisaoempresas",
         beforeSend: function () {
+          $("#emp-sem-user").LoadingOverlay("show", {
+            background: "rgba(165, 190, 100, 0.5)",
+          });
         },
         complete: function () {
+          $("#emp-sem-user").LoadingOverlay("hide");
         },
       },
       columns: [
@@ -186,6 +200,7 @@ $(document).ready(function () {
         }
       ],
       deferRender: true,
+      processing: false,
       responsive: true,
       pagingType: $(window).width() < 768 ? "simple" : "simple_numbers",
       pageLength: 10,
@@ -219,8 +234,12 @@ $(document).ready(function () {
         data: { id: id },
         url: "/administracao/empresasoutroresponsavel",
         beforeSend: function () {
+          $("#emp-outro-user").LoadingOverlay("show", {
+            background: "rgba(165, 190, 100, 0.5)",
+          });
         },
         complete: function () {
+          $("#emp-outro-user").LoadingOverlay("hide");
         },
       },
       columns: [
@@ -241,7 +260,7 @@ $(document).ready(function () {
         }
       ],
       deferRender: true,
-      processing: true,
+      processing: false,
       responsive: true,
       pagingType: $(window).width() < 768 ? "simple" : "simple_numbers",
       pageLength: 10,
@@ -272,8 +291,12 @@ $(document).ready(function () {
         data: { id: id },
         url: "/administracao/empresasresponsavel",
         beforeSend: function () {
+          $("#emp-user-select").LoadingOverlay("show", {
+            background: "rgba(165, 190, 100, 0.5)",
+          });
         },
         complete: function () {
+          $("#emp-user-select").LoadingOverlay("hide");
         },
       },
       columns: [
@@ -294,7 +317,7 @@ $(document).ready(function () {
         }
       ],
       deferRender: true,
-      processing: true,
+      processing: false,
       responsive: true,
       pagingType: $(window).width() < 768 ? "simple" : "simple_numbers",
       pageLength: 10,

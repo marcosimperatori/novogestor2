@@ -23,14 +23,14 @@ class ControleEmpresaModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'idcliente' => 'is_natural_no_zero|required_without[idcliente]',
+        'idcliente' => 'is_natural_no_zero|required',
         'iditem'    => 'is_natural_no_zero|required_without[iditem]',
         'inicio'    => 'required',
     ];
     protected $validationMessages   = [
         'idcliente' => [
             'is_natural_no_zero' => 'Informe o cliente',
-            'required_without'   => 'Informe o cliente',
+            'required'   => 'Informe o cliente',
         ],
         'iditem' => [
             'is_natural_no_zero' => 'Escolha ao menos um item para controlar',
@@ -56,7 +56,7 @@ class ControleEmpresaModel extends Model
             $data['data']['inicio'] = $dataCompleta;
         }
 
-        if (isset($data['data']['final'])) {
+        if (isset($data['data']['final']) && $data['data']['final'] != "") {
 
             $competencia = explode('/', $data['data']['final']);
             $ano = $competencia[1];
