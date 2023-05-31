@@ -58,7 +58,31 @@ $routes->post('administracao/clientes/cadastrar', 'Clientes::cadastrar');
 $routes->post('administracao/clientes/atualizar', 'Clientes::atualizar');
 
 $routes->get('administracao/config-responsavel', 'ConfigClientes::index');
+$routes->get('administracao/empresasdousuario', 'ConfigClientes::listaEmpresasUsuarioById');
+$routes->get('administracao/empresasresumousuario', 'ConfigClientes::empresasSemResponsavel');
+$routes->get('administracao/divisaoempresas', 'ConfigClientes::empresasSemResponsavel');
+$routes->get('administracao/empresasoutroresponsavel', 'ConfigClientes::empresasOutroResponsavel');
+$routes->get('administracao/empresasresponsavel', 'ConfigClientes::empresasResponsavel');
 
+$routes->post('responsavel/excluir', 'ConfigClientes::excluir');
+$routes->post('responsavel/vincular', 'ConfigClientes::vincularCliente');
+
+$routes->get('administracao/itemcontrole', 'ItemControle::index');
+$routes->get('administracao/itemcontrole/criar', 'ItemControle::criar');
+$routes->get('administracao/itemcontrole/editar/(:num)', 'ItemControle::editar/$1');
+
+$routes->get('administracao/controlecliente', 'ControleEmpresa::index');
+
+//rotas ajax
+$routes->get('administracao/itens', 'ItemControle::recuperaItensControle');
+$routes->post('itens/cadastrar', 'ItemControle::cadastrar');
+$routes->post('itens/atualizar', 'ItemControle::atualizar');
+
+$routes->get('clientes/consulta', 'ControleEmpresa::listarClientes');
+$routes->get('itens/consulta', 'ControleEmpresa::listarItens');
+$routes->get('itens/controlecliente', 'ControleEmpresa::listarItensControlados');
+$routes->post('clientes/itens/cadastrar', 'ControleEmpresa::cadastrar');
+$routes->post('clientes/item/excluir', 'ControleEmpresa::excluir');
 /*
 /*
 

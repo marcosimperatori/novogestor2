@@ -59,8 +59,6 @@
       </div>
     </div>
   </div>
-
-
 </div>
 
 <div class="jumbotron jumbotron-fluid">

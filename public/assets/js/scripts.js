@@ -1,38 +1,18 @@
 $(document).ready(function () {
-  const DATATABLE_PTBR = {
-    sEmptyTable: "Nenhum registro encontrado",
-    sInfo: "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-    sInfoEmpty: "Mostrando 0 até 0 de 0 registros",
-    sInfoFiltered: "(Filtrados de _MAX_ registros)",
-    sInfoPostFix: "",
-    sInfoThousands: ".",
-    sLengthMenu: "_MENU_ resultados por página",
-    sLoadingRecords: "Carregando...",
-    sProcessing: "Processando...",
-    sZeroRecords: "Nenhum registro encontrado",
-    sSearch: "Pesquisar",
-    oPaginate: {
-      sNext: "Próximo",
-      sPrevious: "Anterior",
-      sFirst: "Primeiro",
-      sLast: "Último",
-    },
-    oAria: {
-      sSortAscending: ": Ordenar colunas de forma ascendente",
-      sSortDescending: ": Ordenar colunas de forma descendente",
-    },
-    select: {
-      rows: {
-        _: "Selecionado %d linhas",
-        0: "Nenhuma linha selecionada",
-        1: "Selecionado 1 linha",
-      },
-    },
-  };
 
   $("#tableusers").DataTable({
     oLanguage: DATATABLE_PTBR,
-    ajax: "usuarios/recuperausuarios",
+    ajax: {
+      url: "usuarios/recuperausuarios",
+      beforeSend: function () {
+        $("#tableusers").LoadingOverlay("show", {
+          background: "rgba(165, 190, 100, 0.5)",
+        });
+      },
+      complete: function () {
+        $("#tableusers").LoadingOverlay("hide");
+      },
+    },
     columns: [
       {
         data: "imagem",
@@ -48,7 +28,7 @@ $(document).ready(function () {
       },
     ],
     deferRender: true,
-    processing: true,
+    processing: false,
     language: {
       processing: '<i class"fa fa-spinner fa-spin fa-3x fa-fw"></i>',
     },
@@ -91,42 +71,23 @@ $(document).ready(function () {
           if (response.info) {
             $("#response").html(
               '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
-                response.info +
-                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                "</button>" +
-                "</div>"
+              response.info +
+              '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+              '<span aria-hidden="true">&times;</span>' +
+              "</button>" +
+              "</div>"
             );
           } else {
             //tudo certo na atualização, redirecionar o usuário
             window.location.href = "/usuarios";
           }
         } else {
-          //existem erros de validação
-
-          $("#response").html(
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-              response.erro +
-              '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-              '<span aria-hidden="true">&times;</span>' +
-              "</button>" +
-              "</div>"
-          );
-
           if (response.erros_model) {
-            var elemento = "";
-            $.each(response.erros_model, function (key, value) {
-              $("#response").append(
-                '<ul class="list-unstyled"><li class="text-danger alert-danger">' +
-                  value +
-                  "</li></ul>"
-              );
-            });
+            exibirErros(response.erros_model);
           }
         }
       },
       error: function () {
-        alert("falha ao executar a operação");
         $("#btn-salvar").val("Salvar");
         $("#btn-salvar").removeAttr("disabled");
       },
@@ -175,14 +136,14 @@ $(document).ready(function () {
       },
       url: "/usuarios/excluir",
       data: { id: idUsuario },
-      beforeSend: function () {},
+      beforeSend: function () { },
       success: function (response) {
         window.location.href = "/usuarios";
       },
       error: function () {
         alert("Falha ao tentar excluir o registro!");
       },
-      complete: function () {},
+      complete: function () { },
     });
   });
 

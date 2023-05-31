@@ -10,6 +10,13 @@
   background-color: #dee2e6 !important;
 }
 
+.vertical-align {
+  display: flex;
+  vertical-align: middle;
+  height: 100%;
+}
+
+
 #inputimagem::-webkit-file-upload-button {
   visibility: hidden;
 }

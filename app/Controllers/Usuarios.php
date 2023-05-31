@@ -135,14 +135,14 @@ class Usuarios extends BaseController
             return $this->response->setJSON($retorno);
         }
 
-        if ($post['depto'] == 0) {
+        /* if ($post['depto'] == 0) {
             $retorno['erro'] = "Verifique os aviso de erro e tente novamente";
             $retorno['erros_model'] = [
                 'depto' => 'Selecione um departamento'
             ];
 
             return $this->response->setJSON($retorno);
-        }
+        }*/
 
         if ($this->request->getFile('imagem')->isValid()) {
             //recuperando a imagem que veio no post
@@ -254,14 +254,14 @@ class Usuarios extends BaseController
         //recuperando os dados que vieram na requisiçao
         $post = $this->request->getPost();
 
-        if ($post['depto'] == 0) {
+        /*   if ($post['depto'] == 0) {
             $retorno['erro'] = "Verifique os aviso de erro e tente novamente";
             $retorno['erros_model'] = [
                 'depto' => 'Selecione um departamento'
             ];
 
             return $this->response->setJSON($retorno);
-        }
+        }*/
 
         //Criando um novo objeto da entidade usuário
         $usuario = new \App\Entities\Usuario($post);
