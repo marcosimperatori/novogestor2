@@ -32,19 +32,19 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item <?php echo (url_is('/') ? ' active' : '') ?>">
-            <a class="nav-link <?php echo (url_is('/') ? ' text-warning' : '') ?>" href="<?php echo site_url("/") ?>">Home</span></a>
+            <a class="nav-link <?php echo (url_is('/') ? ' bg-warning text-dark' : '') ?>" href="<?php echo site_url("/") ?>">Home</span></a>
           </li>
           <li class="nav-item <?php echo (url_is('administracao*') ? ' active' : '') ?>">
-            <a class="nav-link <?php echo (url_is('administracao*') ? ' text-warning' : '') ?>" href="#">Administração</a>
+            <a class="nav-link <?php echo (url_is('administracao*') ? ' bg-warning text-dark' : '') ?>" href="#">Administração</a>
           </li>
           <li class="nav-item <?php echo (url_is('pessoal*') ? ' active' : '') ?>">
-            <a class="nav-link <?php echo (url_is('pessoal*') ? ' text-warning' : '') ?>" href="#">Depto Pessoal</a>
+            <a class="nav-link <?php echo (url_is('pessoal*') ? ' bg-warning text-dark' : '') ?>" href="#">Depto Pessoal</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php echo (url_is('fiscal*') ? ' text-warning' : '') ?>" href="#">Depto Fiscal</a>
+            <a class="nav-link <?php echo (url_is('fiscal*') ? '  bg-warning text-dark' : '') ?>" href="#">Depto Fiscal</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link <?php echo (url_is('contabil*') ? ' text-warning' : '') ?>" href="#">Depto Contábil</a>
+            <a class="nav-link <?php echo (url_is('contabil*') ? '  bg-warning text-dark' : '') ?>" href="#">Depto Contábil</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -58,7 +58,6 @@
 
   <!-- conteúdo do site -->
   <div class="container my-3">
-
     <?php echo $this->renderSection('caminho'); ?>
     <?php echo $this->include('layout/mensagens'); ?>
     <?php echo $this->renderSection('conteudo'); ?>
