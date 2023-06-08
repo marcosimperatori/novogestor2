@@ -107,6 +107,34 @@
 
 
 <div class="jumbotron">
-  <h5>colocar gráficos que mostram a utilização do sistema pelos usuários, exemplo: qtde de prontuários criados; qtde de inserçoes na base de conhecimento; etc.</h5>
+  <div class="row text-center my-2">
+    <div class="col-lg-6 mb-2">
+      <div id="chart_certificados" style="width: 100%; height: 400px;"></div>
+    </div>
+    <div class="col-lg-6 mb-2">
+      <div id="chart_tipo" style="width: 100%; height: 400px;"></div>
+    </div>
+  </div>
+
+  <div class="row text-center my-2">
+    <div class="col-lg-12 mb-2">
+      <div id="chart_tipo2" style="width: 100%; height: 400px;"></div>
+    </div>
+  </div>
+
+
 </div>
+<?php $this->endSection(); ?>
+
+<?php echo $this->section('scripts'); ?>
+
+
+<script src="<?php echo site_url("assets/js/scripts.js") ?>"></script>
+
+<script src="<?php echo site_url("assets/js/chart.administracao.js"); ?>"> </script>
+<script>
+  window.addEventListener('load', function() {
+    carregarGraficos();
+  });
+</script>
 <?php $this->endSection(); ?>

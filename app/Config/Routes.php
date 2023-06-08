@@ -64,6 +64,8 @@ $routes->get('administracao/divisaoempresas', 'ConfigClientes::empresasSemRespon
 $routes->get('administracao/empresasoutroresponsavel', 'ConfigClientes::empresasOutroResponsavel');
 $routes->get('administracao/empresasresponsavel', 'ConfigClientes::empresasResponsavel');
 
+$routes->get('resumocertificados', 'Administracao::graficoResumoCertificadoDigital');
+
 $routes->post('responsavel/excluir', 'ConfigClientes::excluir');
 $routes->post('responsavel/vincular', 'ConfigClientes::vincularCliente');
 
