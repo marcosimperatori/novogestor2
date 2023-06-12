@@ -21,34 +21,57 @@ class Administracao extends BaseController
 
     public function graficoResumoCertificadoDigital()
     {
-        if ($this->request->isAJAX() == false) {
+        if (!$this->request->isAJAX()) {
             $retorno['resultado'] = 'Sem permissão de acesso!';
             return $this->response->setJSON($retorno);
         }
 
-        $lista = $this->clienteModel->select(
-            "(SELECT COUNT(c.id) AS ativos FROM clientes c WHERE c.vectocertificado >= CURRENT_DATE) ",
-            "(SELECT COUNT(c.id) AS inativos FROM clientes c WHERE c.vectocertificado < CURRENT_DATE) ",
-            "(SELECT COUNT(c.id) AS sem_cert FROM clientes c WHERE c.vectocertificado = '00-00-0000' OR c.vectocertificado IS NULL) "
-        )
-            ->groupBy(1, 2, 3)
-            ->get()->getRow();
+        $lista = $this->clienteModel
+            ->select('(SELECT COUNT(c.id) FROM clientes c WHERE c.vectocertificado >= CURRENT_DATE) AS ativos')
+            ->select('(SELECT COUNT(c.id) FROM clientes c WHERE c.vectocertificado < CURRENT_DATE) AS inativos')
+            ->select('(SELECT COUNT(c.id) FROM clientes c WHERE c.vectocertificado = "00-00-0000" OR c.vectocertificado IS NULL) AS sem_cert')
+            ->findAll();
 
-
-        if (!empty($result)) {
-            $lista = [
-                'ativos' => $result[0]->ativos,
-                'inativos' => $result[0]->inativos,
-                'sem_cert' => $result[0]->sem_cert
+        if (!empty($lista)) {
+            $data = [
+                'ativos' => $lista[0]->ativos,
+                'inativos' => $lista[0]->inativos,
+                'sem_cert' => $lista[0]->sem_cert
             ];
         } else {
-            $lista = [
+            $data = [
                 'ativos' => 0,
                 'inativos' => 0,
                 'sem_cert' => 0
             ];
         }
 
-        return $this->response->setJSON($lista);
+        return $this->response->setJSON($data);
+    }
+
+    public function graficoResumoTipoCliente()
+    {
+        if (!$this->request->isAJAX()) {
+            $retorno['resultado'] = 'Sem permissão de acesso!';
+            return $this->response->setJSON($retorno);
+        }
+
+        $lista = $this->clienteModel
+            ->select('tipo, COUNT(*) AS total')
+            ->groupBy('tipo')
+            ->findAll();
+
+
+        $chartData = [
+            ['Tipo', 'Total'],
+        ];
+
+        foreach ($lista as $row) {
+            $chartData[] = [$row['tipo'], (int) $row['total']];
+        }
+
+        $jsonData = json_encode($chartData);
+
+        return view('chart_view', ['jsonData' => $jsonData]);
     }
 }
