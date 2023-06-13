@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body style="background-color: #c6cbce;">
   <!-- menu de navegação -->
   <main>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -79,6 +79,8 @@
   <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
   <script src="<?php echo site_url("assets/jquery/jquery.validate.js") ?>"></script>
+
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
