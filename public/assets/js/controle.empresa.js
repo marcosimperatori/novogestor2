@@ -175,7 +175,6 @@ $('#idcliente').change(function () {
 function listarControlesCliente() {
     var idUser = $('#idcliente').val();
 
-
     $('#tab-itens-controle').DataTable().destroy();
 
     $('#tab-itens-controle').DataTable({
