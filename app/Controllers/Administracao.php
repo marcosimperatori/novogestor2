@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ClienteModel;
+use App\Models\UsuarioModel;
 
 class Administracao extends BaseController
 {
@@ -28,7 +29,7 @@ class Administracao extends BaseController
 
         $lista = $this->clienteModel
             ->select('(SELECT COUNT(c.id) FROM clientes c WHERE c.vectocertificado >= CURRENT_DATE) AS ativos')
-            ->select('(SELECT COUNT(c.id) FROM clientes c WHERE c.vectocertificado < CURRENT_DATE) AS inativos')
+            ->select('(SELECT COUNT(c.id) FROM clientes c WHERE c.vectocertificado < CURRENT_DATE AND c.vectocertificado <> "00-00-0000") AS inativos')
             ->select('(SELECT COUNT(c.id) FROM clientes c WHERE c.vectocertificado = "00-00-0000" OR c.vectocertificado IS NULL) AS sem_cert')
             ->findAll();
 
@@ -49,7 +50,34 @@ class Administracao extends BaseController
         return $this->response->setJSON($data);
     }
 
-    public function graficoResumoTipoCliente()
+    public function graficoFuncionariosPorDepartamento()
+    {
+        if (!$this->request->isAJAX()) {
+            $retorno['resultado'] = 'Sem permissão de acesso!';
+            return $this->response->setJSON($retorno);
+        }
+
+        $funcionario = new UsuarioModel();
+
+        $lista = $funcionario
+            ->select('departamentos.nome,COUNT(usuarios.id) AS total')
+            ->join('departamentos', 'departamentos.id = usuarios.depto')
+            ->groupBy('departamentos.nome')
+            ->orderBy('total', 'desc')
+            ->findAll();
+
+        $chartData = [];
+
+        foreach ($lista as $row) {
+            $chartData[] = [$row->nome, (int) $row->total];
+        }
+
+        $jsonData = json_encode($chartData);
+
+        return $this->response->setJSON($jsonData);
+    }
+
+    public function graficoRegimesTributarios()
     {
         if (!$this->request->isAJAX()) {
             $retorno['resultado'] = 'Sem permissão de acesso!';
@@ -57,21 +85,18 @@ class Administracao extends BaseController
         }
 
         $lista = $this->clienteModel
-            ->select('tipo, COUNT(*) AS total')
-            ->groupBy('tipo')
+            ->select('select c., count(c.id) as total from clientes c')
+            ->groupBy('departamentos.nome')
             ->findAll();
 
-
-        $chartData = [
-            ['Tipo', 'Total'],
-        ];
+        $chartData = [];
 
         foreach ($lista as $row) {
-            $chartData[] = [$row['tipo'], (int) $row['total']];
+            $chartData[] = [$row->nome, (int) $row->total];
         }
 
         $jsonData = json_encode($chartData);
 
-        return view('chart_view', ['jsonData' => $jsonData]);
+        return $this->response->setJSON($jsonData);
     }
 }

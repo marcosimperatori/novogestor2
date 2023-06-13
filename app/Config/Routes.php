@@ -47,6 +47,8 @@ $routes->get('fiscal', 'DepFiscal::index');
 
 $routes->get('contabil', 'DepContabil::index');
 
+$routes->get('tarefas', 'Tarefa::index');
+
 $routes->get('administracao', 'Administracao::index');
 
 
@@ -66,6 +68,7 @@ $routes->get('administracao/empresasresponsavel', 'ConfigClientes::empresasRespo
 
 $routes->get('resumocertificados', 'Administracao::graficoResumoCertificadoDigital');
 $routes->get('resumotiposclientes', 'Administracao::graficoResumoTipoCliente');
+$routes->get('resumofuncionariosdepto', 'Administracao::graficoFuncionariosPorDepartamento');
 
 $routes->post('responsavel/excluir', 'ConfigClientes::excluir');
 $routes->post('responsavel/vincular', 'ConfigClientes::vincularCliente');

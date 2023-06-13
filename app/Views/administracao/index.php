@@ -112,7 +112,7 @@
       <div id="chart_certificados" style="width: 100%; height: 400px;"></div>
     </div>
     <div class="col-lg-6 mb-2">
-      <div id="chart_tipo" style="width: 100%; height: 400px;"></div>
+      <div id="chart_funcdepto" style="width: 100%; height: 400px;"></div>
     </div>
   </div>
 
