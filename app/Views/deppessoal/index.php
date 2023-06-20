@@ -12,7 +12,7 @@
 
 <div class="jumbotron">
   <div class="row">
-    <div class="col-lg-3 text-center mt-2">
+    <div class="col-lg-4 text-center mt-2">
       <div class="card">
         <div class="card-header">
           <i class="fas fa-calculator text-danger"></i>
@@ -35,29 +35,8 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3 text-center mt-2">
-      <div class="card">
-        <div class="card-header">
-          <i class="fas fa-tasks text-danger"></i>
-          Tarefas
-        </div>
-        <div class="card-body">
-          <a href="<?php echo site_url("pessoal/tarefas"); ?>" class="card-link btn btn-primary btn-sm">Acessar</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 text-center mt-2">
-      <div class="card">
-        <div class="card-header">
-          <i class="fas fa-comment-dots text-danger"></i>
-          Prontuários
-        </div>
-        <div class="card-body">
-          <a href="#" class="card-link btn btn-primary btn-sm">Acessar</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 text-center mt-2">
+
+    <div class="col-lg-4 text-center mt-2">
       <div class="card">
         <div class="card-header">
           <i class="fas fa-user-injured text-danger"></i>
@@ -68,7 +47,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3 text-center mt-2">
+    <div class="col-lg-4 text-center mt-2">
       <div class="card">
         <div class="card-header">
           <i class="fas fa-users text-danger"></i>
@@ -79,7 +58,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3 text-center mt-2">
+    <div class="col-lg-4 text-center mt-2">
       <div class="card">
         <div class="card-header">
           <i class="fas fa-baby text-danger"></i>
@@ -90,7 +69,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3 text-center mt-2">
+    <div class="col-lg-4 text-center mt-2">
       <div class="card">
         <div class="card-header">
           <i class="fas fa-map-marked-alt text-danger"></i>
@@ -101,7 +80,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-3 text-center mt-2">
+    <div class="col-lg-4 text-center mt-2">
       <div class="card">
         <div class="card-header">
           <i class="fas fa-print text-danger"></i>

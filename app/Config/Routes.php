@@ -89,6 +89,8 @@ $routes->get('itens/consulta', 'ControleEmpresa::listarItens');
 $routes->get('itens/controlecliente', 'ControleEmpresa::listarItensControlados');
 $routes->post('clientes/itens/cadastrar', 'ControleEmpresa::cadastrar');
 $routes->post('clientes/item/excluir', 'ControleEmpresa::excluir');
+
+$routes->get('tarefas/lista', 'Tarefa::recuperaTarefas');
 /*
 /*
 

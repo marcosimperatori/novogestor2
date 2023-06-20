@@ -72,7 +72,7 @@
           </h5>
           <hr class="my-4">
           <div class="text-right">
-            <a href="#" class="badge badge-pill badge-primary">Acessar</a>
+            <a href="<?php echo site_url("administracao/clientes") ?>" class="badge badge-pill badge-primary">Acessar</a>
           </div>
         </div>
       </div>
