@@ -76,7 +76,9 @@ class Tarefa extends BaseController
             }
 
             if ($tarefa->status == 'Finalizada') {
-                $tarefa->status = '<div class="text-success"><strong>' . $tarefa->status . '</strong></div>';
+                $tarefa->status = '<div class="text-success"><i class="fas fa-check"></i>&nbsp;<strong>' . $tarefa->status . '</strong></div>';
+            } else {
+                $tarefa->status = '<div ><i class="fas fa-exclamation text-danger"></i>&nbsp;' . $tarefa->status . '</div>';
             }
 
             $data[] = [
@@ -94,6 +96,15 @@ class Tarefa extends BaseController
         ];
 
         return $this->response->setJSON($retorno);
+    }
+
+    public function criar()
+    {
+        $data = [
+            'titulo' => "Criando nova tarefa",
+        ];
+
+        return view('tarefas/criar', $data);
     }
 
     private function obterIniciais($expressao)

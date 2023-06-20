@@ -69,10 +69,16 @@ function carregarDados(parametro) {
   });
 }
 
-var valorSelecionado = $("#lista-status").val();
+let dono = "";
+
+if ($("#dono").is(":checked")) {
+  //pegar id do usuário da sessão do usuário, assim o back filtrará apenas solicitações do usuário
+}
+
+let valorSelecionado = $("#lista-status").val();
 carregarDados(valorSelecionado);
 
 $("#lista-status").on("change", function () {
-  var valorSelecionado = $(this).val();
+  let valorSelecionado = $(this).val();
   carregarDados(valorSelecionado);
 });

@@ -10,15 +10,13 @@
   </nav>
 </div>
 
-
 <section>
   <div class="jumbotron">
-
-    <div class="container">
+    <div class="">
       <div class="row align-items-center">
-        <div class="col-lg-4 busca-user">
-          <div class="form-group mb-3">
-            <label for="list-users" class="form-control-label">Status da tarefa</label>
+        <div class="col-lg-4  col-md-6 busca-user">
+          <div class="form-group mb-3 d-flex align-items-center">
+            <label for="list-users" class="form-control-label mr-3">Situação</label>
             <select id="lista-status" name="depto" class="form-control">
               <option value="Pendente">Pendentes</option>
               <option value="Finalizada">Finalizadas</option>
@@ -26,8 +24,17 @@
             </select>
           </div>
         </div>
-        <div class="col-lg-8 text-lg-right">
-          <button type="button" class="btn btn-primary btn-sm ml-3 mt-4">Nova tarefa</button>
+        <div class="col-lg-5  col-md-6">
+          <div class="form-group mb-3 d-flex align-items-center">
+            <div class="input-group-text">
+              <input id="dono" type="checkbox" checked aria-label="Checkbox for following text input">&nbsp;Apenas as que sou responsável
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3  col-md-12 text-lg-right">
+          <div class="form-group mb-3 d-flex align-items-end justify-content-end">
+            <a href="<?php echo site_url('tarefas/criar'); ?>" class="btn btn-outline-primary">Nova tarefa</a>
+          </div>
         </div>
       </div>
     </div>

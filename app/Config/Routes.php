@@ -91,6 +91,7 @@ $routes->post('clientes/itens/cadastrar', 'ControleEmpresa::cadastrar');
 $routes->post('clientes/item/excluir', 'ControleEmpresa::excluir');
 
 $routes->get('tarefas/lista', 'Tarefa::recuperaTarefas');
+$routes->get('tarefas/criar', 'Tarefa::criar');
 /*
 /*
 
