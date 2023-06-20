@@ -40,6 +40,7 @@
             <th>Tarefa</th>
             <th>Status</th>
             <th>Cliente</th>
+            <th>Depto</th>
             <th>Responsável</th>
           </tr>
         </thead>

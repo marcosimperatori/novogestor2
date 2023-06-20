@@ -30,19 +30,23 @@ class Tarefa extends BaseController
 
         if (empty($parametro)) {
             $tarefas =  $this->tarefaModel->select(
-                'tarefas.id, tarefas.titulo,tarefas.status, tarefas.vecto,usuarios.nome as nome_autor, usuarios.imagem,clientes.razao'
+                'tarefas.id, tarefas.titulo,tarefas.status, tarefas.vecto,usuarios.nome as nome_autor, usuarios.imagem,clientes.razao,
+                departamentos.nome as depto'
             )
                 ->join('clientes', 'clientes.id = tarefas.idcliente')
                 ->join('usuarios', 'usuarios.id = tarefas.executadapor')
+                ->join('departamentos', 'departamentos.id = usuarios.depto')
                 ->orderBy('tarefas.vecto', 'asc')
                 ->orderBy('tarefas.titulo', 'asc')
                 ->findAll();
         } else {
             $tarefas = $this->tarefaModel->select(
-                'tarefas.id, tarefas.titulo,tarefas.status, tarefas.vecto,usuarios.nome as nome_autor, usuarios.imagem,clientes.razao'
+                'tarefas.id, tarefas.titulo,tarefas.status, tarefas.vecto,usuarios.nome as nome_autor, usuarios.imagem,clientes.razao,
+                departamentos.nome as depto'
             )
                 ->join('clientes', 'clientes.id = tarefas.idcliente')
                 ->join('usuarios', 'usuarios.id = tarefas.executadapor')
+                ->join('departamentos', 'departamentos.id = usuarios.depto')
                 ->where('tarefas.status', $parametro)
                 ->orderBy('tarefas.vecto', 'asc')
                 ->orderBy('tarefas.titulo', 'asc')
@@ -71,12 +75,17 @@ class Tarefa extends BaseController
                 ];
             }
 
+            if ($tarefa->status == 'Finalizada') {
+                $tarefa->status = '<div class="text-success"><strong>' . $tarefa->status . '</strong></div>';
+            }
+
             $data[] = [
                 'vencimento' => date('d/m/Y', strtotime($tarefa->vecto)),
-                'titulo' => anchor("tarefas/editar/$tarefa->id", esc($tarefa->titulo), 'title="Exibir detalhes da tarefa"'),
-                'status' => $tarefa->status,
-                'cliente' => $tarefa->razao,
-                'imagem' => $tarefa->imagem = img($imagem),
+                'titulo'     => anchor("tarefas/editar/$tarefa->id", esc($tarefa->titulo), 'title="Exibir detalhes da tarefa"'),
+                'status'     => $tarefa->status,
+                'cliente'    => $tarefa->razao,
+                'depto'      => $this->obterIniciais($tarefa->depto),
+                'imagem'     => $tarefa->imagem = img($imagem),
             ];
         }
 
@@ -85,5 +94,21 @@ class Tarefa extends BaseController
         ];
 
         return $this->response->setJSON($retorno);
+    }
+
+    private function obterIniciais($expressao)
+    {
+        $palavras = explode(' ', $expressao);
+        $iniciais = '';
+
+        foreach ($palavras as $palavra) {
+            $iniciais .= substr($palavra, 0, 1);
+        }
+
+        if (count($palavras) === 1) {
+            $iniciais = substr($expressao, 0, 3);
+        }
+
+        return $iniciais;
     }
 }

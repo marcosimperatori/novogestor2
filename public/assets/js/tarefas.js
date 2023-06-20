@@ -30,6 +30,9 @@ function carregarDados(parametro) {
         data: "cliente",
       },
       {
+        data: "depto",
+      },
+      {
         data: "imagem",
       },
     ],
@@ -47,7 +50,7 @@ function carregarDados(parametro) {
         targets: [0],
       },
       {
-        width: "300px",
+        width: "280px",
         targets: [3],
       },
       {
@@ -55,8 +58,12 @@ function carregarDados(parametro) {
         targets: [2],
       },
       {
+        width: "30px",
+        targets: [4],
+      },
+      {
         className: "text-center",
-        targets: [0, 4],
+        targets: [0, 4, 5],
       },
     ],
   });
