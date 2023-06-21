@@ -56,8 +56,35 @@ class ControleEmpresa extends BaseController
 
         $busca = $this->request->getVar('q');
 
-        $retorno = $cliente->select('id, codigo, apelido, razao, cnpj')->like('apelido', $busca)
-            ->orderBy('apelido', 'ASC')->findAll();
+        $retorno = $cliente->select('id, codigo, apelido, razao, cnpj')
+            ->groupStart()
+            ->like('apelido', $busca)
+            ->orLike('codigo', $busca)
+            ->groupEnd()
+            ->orderBy('apelido', 'ASC')
+            ->findAll();
+
+        $data = [
+            'data' => $retorno
+        ];
+
+        return $this->response->setJSON($data);
+    }
+
+    public function listarUsuarios()
+    {
+        $cliente = new \App\Models\UsuarioModel();
+
+        $busca = $this->request->getVar('q');
+
+        $retorno = $cliente->select('usuarios.id, usuarios.nome, departamentos.nome as depto')
+            ->join('departamentos', 'departamentos.id = usuarios.depto')
+            ->groupStart()
+            ->like('usuarios.nome', $busca)
+            ->orLike('departamentos.nome', $busca) // Condição OR
+            ->groupEnd()
+            ->orderBy('usuarios.nome', 'ASC')
+            ->findAll();
 
         $data = [
             'data' => $retorno

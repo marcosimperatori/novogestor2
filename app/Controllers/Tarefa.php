@@ -100,8 +100,11 @@ class Tarefa extends BaseController
 
     public function criar()
     {
+        $tarefa = new \App\Entities\TarefaEntity();
+
         $data = [
             'titulo' => "Criando nova tarefa",
+            'tarefa' => $tarefa
         ];
 
         return view('tarefas/criar', $data);

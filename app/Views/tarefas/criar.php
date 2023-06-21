@@ -14,7 +14,7 @@
 <section>
   <div class="jumbotron">
     <div id="response"></div>
-    <?php echo form_open('/', ['id' => 'form_cad_item', 'class' => 'insert'], ['id' => "$itemcontrole->id"]) ?>
+    <?php echo form_open('/', ['id' => 'form_cad_tarefa', 'class' => 'insert'], ['id' => "$tarefa->id"]) ?>
     <div class="row">
       <div class="col-lg-12">
         <?php echo $this->include('tarefas/_form'); ?>
@@ -37,6 +37,8 @@
 
 <?php echo $this->section('scripts'); ?>
 
-<script src="<?php echo site_url("assets/js/item.controle.js") ?>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="<?php echo site_url("assets/js/tarefas.js") ?>"></script>
 
 <?php $this->endSection(); ?>
